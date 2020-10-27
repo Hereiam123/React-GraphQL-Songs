@@ -1,7 +1,6 @@
 import React from "react";
 import withRoot from "./withRoot";
-import { useQuery } from "react-apollo";
-import { gql } from "apollo-boost";
+import { gql, useQuery } from "@apollo/client";
 
 const Root = () => {
   const { loading, error, data } = useQuery(GET_TRACKS_QUERY);
