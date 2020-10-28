@@ -18,6 +18,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import Error from "../Shared/Error";
+import { cloudUrl, cloudName, cloudPreset } from "../../cloudinaryApi";
 
 const CreateTrack = () => {
   const classes = useStyles();
@@ -41,6 +42,9 @@ const CreateTrack = () => {
     const data = new FormData();
     data.append("file", file);
     data.append("resource_type", "raw");
+    data.append("upload_preset", cloudPreset);
+    data.append("cloud_name", cloudName);
+    axios.post(cloudUrl, data);
   };
 
   const handleSubmit = (e) => {
