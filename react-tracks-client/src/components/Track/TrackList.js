@@ -41,7 +41,7 @@ const TrackList = ({ tracks }) => {
                   </Link>
                 }
               />
-              <AudioPlayer />
+              <AudioPlayer url={track.url} />
             </ListItem>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
