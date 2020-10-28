@@ -5,11 +5,13 @@ import { gql, useQuery } from "@apollo/client";
 import App from "./pages/App";
 import Profile from "./pages/Profile";
 import Header from "./components/Shared/Header";
+import Loading from "./components/Shared/Loading";
+import Error from "./components/Shared/Error";
 
 const Root = () => {
   const { loading, error, data } = useQuery(GET_ME_QUERY);
-  if (loading) return <div>Loading</div>;
-  if (error) return <div>Error</div>;
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   return (
     <Router>
       <Header currentUser={data.me} />
