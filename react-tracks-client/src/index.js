@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./Root";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { IS_USER_LOGGED_IN } from "./sharedQueries";
 import Auth from "./components/Auth";
 import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
@@ -12,22 +13,15 @@ const client = new ApolloClient({
   cache,
 });
 
-//Export for other components
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
-
 cache.writeQuery({
-  query: IS_LOGGED_IN,
+  query: IS_USER_LOGGED_IN,
   data: {
     isLoggedIn: !!localStorage.getItem("authToken"),
   },
 });
 
 const AuthCheckComponent = (props) => {
-  const { data } = useQuery(IS_LOGGED_IN);
+  const { data } = useQuery(IS_USER_LOGGED_IN);
   return data.isLoggedIn ? <Root /> : props.children;
 };
 

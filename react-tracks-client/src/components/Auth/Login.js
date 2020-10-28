@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { Lock } from "@material-ui/icons";
 import Error from "../Shared/Error";
+import { IS_USER_LOGGED_IN } from "../../sharedQueries";
 
 const Login = ({ setIsLogin }) => {
   const [username, setUsername] = useState("");
@@ -30,14 +31,9 @@ const Login = ({ setIsLogin }) => {
       });
       localStorage.setItem("authToken", res.data.tokenAuth.token);
       mutationClient.writeQuery({
-        query: gql`
-          query IsUserLoggedIn {
-            isLoggedIn @client
-          }
-        `,
+        query: IS_USER_LOGGED_IN,
         data: { isLoggedIn: true },
       });
-      console.log(mutationClient);
     } catch (e) {
       console.log(e);
     }
