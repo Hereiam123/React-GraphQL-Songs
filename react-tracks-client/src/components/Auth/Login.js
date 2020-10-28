@@ -19,7 +19,7 @@ const Login = ({ setIsLogin }) => {
   const classes = useStyles();
   const [
     loginUser,
-    { loading: mutationLoading, error: mutationError },
+    { loading: mutationLoading, error: mutationError, client: mutationClient },
   ] = useMutation(LOGIN_MUTATION);
 
   const handleSubmit = async (e) => {
@@ -28,6 +28,16 @@ const Login = ({ setIsLogin }) => {
       const res = await loginUser({
         variables: { password, username },
       });
+      localStorage.setItem("authToken", res.data.tokenAuth.token);
+      mutationClient.writeQuery({
+        query: gql`
+          query IsUserLoggedIn {
+            isLoggedIn @client
+          }
+        `,
+        data: { isLoggedIn: true },
+      });
+      console.log(mutationClient);
     } catch (e) {
       console.log(e);
     }

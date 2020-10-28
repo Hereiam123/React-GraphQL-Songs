@@ -1,18 +1,41 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./Root";
+import { useQuery, gql } from "@apollo/client";
 import Auth from "./components/Auth";
 import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
+const cache = new InMemoryCache();
 const client = new ApolloClient({
   uri: "http://localhost:8000/graphql/",
-  cache: new InMemoryCache(),
+  cache,
 });
+
+//Export for other components
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+
+cache.writeQuery({
+  query: IS_LOGGED_IN,
+  data: {
+    isLoggedIn: !!localStorage.getItem("authToken"),
+  },
+});
+
+const AuthCheckComponent = (props) => {
+  const { data } = useQuery(IS_LOGGED_IN);
+  return data.isLoggedIn ? <Root /> : props.children;
+};
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Auth />
+    <AuthCheckComponent>
+      <Auth />
+    </AuthCheckComponent>
   </ApolloProvider>,
   document.getElementById("root")
 );
