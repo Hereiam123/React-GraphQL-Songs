@@ -1,5 +1,6 @@
 import React from "react";
 import withRoot from "./withRoot";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 
 const Root = () => {
