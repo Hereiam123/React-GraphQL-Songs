@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useMutation, gql } from "@apollo/client";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Dialog,
@@ -15,17 +17,34 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
+import Error from "../Shared/Error";
 
 const CreateTrack = () => {
   const classes = useStyles();
+  const [
+    createTrack,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(CREATE_TRACK_MUTATION);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescritpion] = useState("");
   const [file, setFile] = useState("");
 
+  if (mutationError) return <Error error={mutationError} />;
+
   const handleAudioChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
+  };
+
+  const handleAudioUpload = () => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("resource_type", "raw");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -41,7 +60,11 @@ const CreateTrack = () => {
         {open ? <ClearIcon /> : <AddIcon />}
       </Button>
       <Dialog open={open} className={classes.dialog}>
-        <form>
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
           <DialogTitle>Create Track</DialogTitle>
           <DialogContent>
             <DialogContentText component="span">
@@ -114,6 +137,18 @@ const CreateTrack = () => {
     </>
   );
 };
+
+const CREATE_TRACK_MUTATION = gql`
+  mutation($title: String!, $description: String!, $url: String!) {
+    createTrack(title: $title, description: $description, url: $url) {
+      track {
+        id
+        title
+        description
+      }
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   container: {
