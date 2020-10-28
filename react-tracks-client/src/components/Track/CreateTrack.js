@@ -39,12 +39,19 @@ const CreateTrack = () => {
   const [description, setDescritpion] = useState("");
   const [file, setFile] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [fileError, setFileError] = useState("");
 
   if (mutationError) return <Error error={mutationError} />;
 
   const handleAudioChange = (e) => {
     const selectedFile = e.target.files[0];
-    setFile(selectedFile);
+    const fileSizeLimit = 10000000; //10mb
+    if (selectedFile && selectedFile.size > fileSizeLimit) {
+      setFileError(`${selectedFile.name}: File size too large, 10mb max.`);
+    } else {
+      setFile(selectedFile);
+      setFileError("");
+    }
   };
 
   const handleAudioUpload = async () => {
@@ -65,6 +72,9 @@ const CreateTrack = () => {
   const handleComplete = () => {
     setOpen(false);
     setSubmitting(false);
+    setTitle("");
+    setDescritpion("");
+    setFile("");
   };
 
   const handleSubmit = async (e) => {
@@ -104,6 +114,7 @@ const CreateTrack = () => {
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
+                  value={title}
                 />
               </FormControl>
               <FormControl fullWidth>
@@ -116,9 +127,10 @@ const CreateTrack = () => {
                   onChange={(e) => {
                     setDescritpion(e.target.value);
                   }}
+                  value={description}
                 />
               </FormControl>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={fileError}>
                 <input
                   id="audio"
                   required
@@ -139,6 +151,7 @@ const CreateTrack = () => {
                   </Button>
                   {file && file.name}
                 </label>
+                <FormHelperText>{fileError}</FormHelperText>
               </FormControl>
             </DialogContentText>
           </DialogContent>

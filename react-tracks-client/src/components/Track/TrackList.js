@@ -28,7 +28,7 @@ const TrackList = ({ tracks }) => {
               <LikeTrack />
               <ListItemText
                 primaryTypographyProps={{
-                  variant: "subheading",
+                  variant: "h4",
                   color: "primary",
                 }}
                 primary={track.title}
