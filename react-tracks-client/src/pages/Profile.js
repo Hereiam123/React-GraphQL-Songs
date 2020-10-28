@@ -1,5 +1,5 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { makeStyles } from "@material-ui/core/styles";
 // import Card from "@material-ui/core/Card";
 // import CardHeader from "@material-ui/core/CardHeader";
 // import Avatar from "@material-ui/core/Avatar";
@@ -9,11 +9,12 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // import AudiotrackIcon from "@material-ui/icons/AudiotrackTwoTone";
 // import Divider from "@material-ui/core/Divider";
 
-const Profile = ({ classes }) => {
+const Profile = () => {
+  const classes = useStyles();
   return <div>Profile</div>;
 };
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     width: "auto",
     display: "block",
@@ -25,31 +26,31 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       width: 650,
       marginLeft: "auto",
-      marginRight: "auto"
-    }
+      marginRight: "auto",
+    },
   },
   card: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   title: {
     display: "flex",
     alignItems: "center",
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing.unit * 2,
   },
   audioIcon: {
     color: "purple",
     fontSize: 30,
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
   },
   thumbIcon: {
     color: "green",
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
   },
   divider: {
     marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
-  }
-});
+    marginBottom: theme.spacing.unit,
+  },
+}));
 
-export default withStyles(styles)(Profile);
+export default Profile;

@@ -6,13 +6,12 @@ const App = () => {
   return <div>App</div>;
 };
 
-const useStyles = (theme) =>
-  makeStyles({
-    container: {
-      margin: "0 auto",
-      maxWidth: 960,
-      padding: theme.spacing.unit * 2,
-    },
-  });
+const useStyles = makeStyles((theme) => ({
+  container: {
+    margin: "0 auto",
+    maxWidth: 960,
+    padding: theme.spacing.unit * 2,
+  },
+}));
 
 export default App;
