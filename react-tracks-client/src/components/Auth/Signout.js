@@ -1,21 +1,32 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-// import ExitToApp from "@material-ui/icons/ExitToApp";
-// import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import ExitToApp from "@material-ui/icons/ExitToApp";
+import { Typography, Button } from "@material-ui/core";
 
-const Signout = ({ classes }) => {
-  return <div>Signout</div>;
+const Signout = () => {
+  const classes = useStyles();
+  return (
+    <Button>
+      <Typography
+        variant="body1"
+        className={classes.buttonIcon}
+        color="secondary"
+      >
+        Signout
+      </Typography>
+      <ExitToApp className={classes.buttonIcon} color="secondary" />
+    </Button>
+  );
 };
 
-const styles = {
+const useStyles = makeStyles((theme) => ({
   root: {
     cursor: "pointer",
-    display: "flex"
+    display: "flex",
   },
   buttonIcon: {
-    marginLeft: "5px"
-  }
-};
+    marginLeft: "5px",
+  },
+}));
 
-export default withStyles(styles)(Signout);
+export default Signout;

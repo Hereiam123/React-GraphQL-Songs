@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import App from "./pages/App";
 import Profile from "./pages/Profile";
+import Header from "./components/Shared/Header";
 
 const Root = () => {
   const { loading, error, data } = useQuery(GET_ME_QUERY);
@@ -11,6 +12,7 @@ const Root = () => {
   if (error) return <div>Error</div>;
   return (
     <Router>
+      <Header currentUser={data.me} />
       <Switch>
         <Route path="/" exact component={App} />
         <Route path="/profile/:id" component={Profile} />
