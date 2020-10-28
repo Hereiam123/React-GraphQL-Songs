@@ -17,10 +17,15 @@ import Slide from "@material-ui/core/Slide";
 import Gavel from "@material-ui/icons/Gavel";
 import VerifiedUserTwoTone from "@material-ui/icons/VerifiedUserTwoTone";
 
-const Register = () => {
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
+const Register = ({ setIsLogin }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
   const [
     createUser,
@@ -34,6 +39,7 @@ const Register = () => {
         variables: { email, password, username },
       });
       console.log(res);
+      setOpen(true);
     } catch (e) {
       console.log(e);
     }
@@ -86,17 +92,55 @@ const Register = () => {
             fullWidth
             variant="contained"
             color="secondary"
+            disabled={
+              mutationLoading ||
+              !username.trim() ||
+              !email.trim() ||
+              !password.trim()
+            }
             className={classes.submit}
           >
-            Register
+            {mutationLoading ? "Registering..." : "Register"}
           </Button>
-          <Button color="primary" variant="outlined" fullWidth>
+          <Button
+            onClick={() => {
+              setIsLogin(true);
+            }}
+            color="primary"
+            variant="outlined"
+            fullWidth
+          >
             Previous user? Login in here.
           </Button>
         </form>
         {mutationLoading && <p>Loading...</p>}
         {mutationError && <p>Error :( Please try again</p>}
       </Paper>
+      {/***Success Dialog***/}
+      <Dialog disableBackdropClick open={open} TransitionComponent={Transition}>
+        <DialogTitle>
+          <VerifiedUserTwoTone className={classes.icon} />
+          New Account
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            User {username} successfully created!
+          </DialogContentText>
+          <DialogActions>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                setIsLogin(true);
+              }}
+            >
+              Login
+            </Button>
+            {/***Error ***/}
+            {mutationError && <div>Error</div>}
+          </DialogActions>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

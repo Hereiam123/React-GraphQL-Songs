@@ -1,16 +1,17 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { makeStyles } from "@material-ui/core/styles";
 // import Button from "@material-ui/core/Button";
 // import Snackbar from "@material-ui/core/Snackbar";
 
-const Error = ({ classes }) => {
+const Error = () => {
+  const classes = useStyles();
   return <div>Error</div>;
 };
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   snackbar: {
-    margin: theme.spacing.unit
-  }
-});
+    margin: theme.spacing.unit,
+  },
+}));
 
-export default withStyles(styles)(Error);
+export default Error;
