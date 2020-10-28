@@ -40,7 +40,6 @@ const Register = ({ setIsLogin }) => {
       const res = await createUser({
         variables: { email, password, username },
       });
-      console.log(res);
       setOpen(true);
     } catch (e) {
       console.log(e);
