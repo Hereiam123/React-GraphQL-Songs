@@ -6,10 +6,10 @@ import {
   ListItem,
   ListItemText,
   Typography,
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
-  ExpansionPanelActions,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  AccordionActions,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AudioPlayer from "../Shared/AudioPlayer";
@@ -19,12 +19,11 @@ import UpdateTrack from "./UpdateTrack";
 
 const TrackList = ({ tracks }) => {
   const classes = useStyles();
-  console.log(tracks[0]);
   return (
     <List>
-      {tracks.map((track) => {
-        <ExpansionPanel key={track.id}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+      {tracks.map((track) => (
+        <Accordion key={track.id}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <ListItem className={classes.root}>
               <LikeTrack />
               <ListItemText
@@ -44,16 +43,16 @@ const TrackList = ({ tracks }) => {
               />
               <AudioPlayer />
             </ListItem>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.details}>
+          </AccordionSummary>
+          <AccordionDetails className={classes.details}>
             <Typography variant="body1">{track.description}</Typography>
-          </ExpansionPanelDetails>
-          <ExpansionPanelActions>
+          </AccordionDetails>
+          <AccordionActions>
             <UpdateTrack />
             <DeleteTrack />
-          </ExpansionPanelActions>
-        </ExpansionPanel>;
-      })}
+          </AccordionActions>
+        </Accordion>
+      ))}
     </List>
   );
 };
