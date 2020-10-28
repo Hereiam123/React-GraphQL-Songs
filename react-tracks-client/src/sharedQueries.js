@@ -5,3 +5,21 @@ export const IS_USER_LOGGED_IN = gql`
     isLoggedIn @client
   }
 `;
+
+export const GET_TRACKS_QUERY = gql`
+  query getTracksQuery {
+    tracks {
+      id
+      title
+      description
+      url
+      likes {
+        id
+      }
+      postedBy {
+        id
+        username
+      }
+    }
+  }
+`;

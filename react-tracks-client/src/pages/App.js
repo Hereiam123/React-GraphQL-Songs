@@ -6,6 +6,7 @@ import TrackList from "../components/Track/TrackList";
 import CreateTrack from "../components/Track/CreateTrack";
 import Loading from "../components/Shared/Loading";
 import Error from "../components/Shared/Error";
+import { GET_TRACKS_QUERY } from "../sharedQueries";
 
 const App = () => {
   const classes = useStyles(GET_TRACKS_QUERY);
@@ -20,24 +21,6 @@ const App = () => {
     </div>
   );
 };
-
-const GET_TRACKS_QUERY = gql`
-  query getTracksQuery {
-    tracks {
-      id
-      title
-      description
-      url
-      likes {
-        id
-      }
-      postedBy {
-        id
-        username
-      }
-    }
-  }
-`;
 
 const useStyles = makeStyles((theme) => ({
   container: {

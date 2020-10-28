@@ -19,6 +19,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import Error from "../Shared/Error";
 import { cloudUrl, cloudName, cloudPreset } from "../../cloudinaryApi";
+import { GET_TRACKS_QUERY } from "../../sharedQueries";
 
 const CreateTrack = () => {
   const classes = useStyles();
@@ -26,6 +27,9 @@ const CreateTrack = () => {
     createTrack,
     { error: mutationError, data: mutationData },
   ] = useMutation(CREATE_TRACK_MUTATION, {
+    refetchQueries() {
+      return [{ query: GET_TRACKS_QUERY }];
+    },
     onCompleted() {
       handleComplete();
     },
