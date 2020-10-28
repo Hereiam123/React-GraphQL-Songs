@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-// import Button from "@material-ui/core/Button";
-// import Snackbar from "@material-ui/core/Snackbar";
+import { Snackbar, Button } from "@material-ui/core";
 
-const Error = () => {
+const Error = ({ error }) => {
+  const [open, setOpen] = useState(true);
   const classes = useStyles();
-  return <div>Error</div>;
+  return (
+    <Snackbar
+      open={open}
+      className={classes.snackbar}
+      action={
+        <Button
+          onClick={() => {
+            setOpen(false);
+          }}
+          color="secondary"
+          size="small"
+        >
+          Close
+        </Button>
+      }
+      message={error}
+    />
+  );
 };
 
 const useStyles = makeStyles((theme) => ({

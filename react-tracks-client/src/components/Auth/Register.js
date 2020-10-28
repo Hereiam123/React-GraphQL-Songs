@@ -16,20 +16,22 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import Gavel from "@material-ui/icons/Gavel";
 import VerifiedUserTwoTone from "@material-ui/icons/VerifiedUserTwoTone";
+import Error from "../Shared/Error";
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
-}
+const Transition = React.forwardRef((props, ref) => {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Register = ({ setIsLogin }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState();
   const classes = useStyles();
   const [
     createUser,
-    { loading: mutationLoading, error: mutationError },
+    { loading: mutationLoading, error: mutationError, errors },
   ] = useMutation(REGISTER_MUTATION);
 
   const handleSubmit = async (e) => {
@@ -112,9 +114,9 @@ const Register = ({ setIsLogin }) => {
           >
             Previous user? Login in here.
           </Button>
+          {mutationLoading && <p>Loading...</p>}
+          {mutationError && <Error error={mutationError.toString()} />}
         </form>
-        {mutationLoading && <p>Loading...</p>}
-        {mutationError && <p>Error :( Please try again</p>}
       </Paper>
       {/***Success Dialog***/}
       <Dialog disableBackdropClick open={open} TransitionComponent={Transition}>
