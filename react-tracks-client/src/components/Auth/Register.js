@@ -31,7 +31,7 @@ const Register = ({ setIsLogin }) => {
   const classes = useStyles();
   const [
     createUser,
-    { loading: mutationLoading, error: mutationError, errors },
+    { loading: mutationLoading, error: mutationError },
   ] = useMutation(REGISTER_MUTATION);
 
   const handleSubmit = async (e) => {

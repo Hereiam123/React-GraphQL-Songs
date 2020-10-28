@@ -7,5 +7,9 @@ import Signout from "./Signout";
 
 export default withRoot(() => {
   const [isLogin, setIsLogin] = useState(false);
-  return isLogin ? <Login /> : <Register setIsLogin={setIsLogin} />;
+  return isLogin ? (
+    <Login setIsLogin={setIsLogin} />
+  ) : (
+    <Register setIsLogin={setIsLogin} />
+  );
 });
