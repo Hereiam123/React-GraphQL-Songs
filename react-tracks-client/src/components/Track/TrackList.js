@@ -19,6 +19,7 @@ import UpdateTrack from "./UpdateTrack";
 
 const TrackList = ({ tracks }) => {
   const classes = useStyles();
+  console.log(tracks[0]);
   return (
     <List>
       {tracks.map((track) => {

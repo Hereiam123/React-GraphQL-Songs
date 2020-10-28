@@ -24,12 +24,17 @@ const CreateTrack = () => {
   const classes = useStyles();
   const [
     createTrack,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(CREATE_TRACK_MUTATION);
+    { error: mutationError, data: mutationData },
+  ] = useMutation(CREATE_TRACK_MUTATION, {
+    onCompleted() {
+      handleComplete();
+    },
+  });
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescritpion] = useState("");
   const [file, setFile] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   if (mutationError) return <Error error={mutationError} />;
 
@@ -38,17 +43,31 @@ const CreateTrack = () => {
     setFile(selectedFile);
   };
 
-  const handleAudioUpload = () => {
+  const handleAudioUpload = async () => {
     const data = new FormData();
-    data.append("file", file);
-    data.append("resource_type", "raw");
-    data.append("upload_preset", cloudPreset);
-    data.append("cloud_name", cloudName);
-    axios.post(cloudUrl, data);
+    try {
+      data.append("file", file);
+      data.append("resource_type", "raw");
+      data.append("upload_preset", cloudPreset);
+      data.append("cloud_name", cloudName);
+      const res = await axios.post(cloudUrl, data);
+      return res.data.url;
+    } catch (e) {
+      console.error("Error with cloudinary " + e);
+      setSubmitting(false);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleComplete = () => {
+    setOpen(false);
+    setSubmitting(false);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
+    const url = await handleAudioUpload();
+    createTrack({ variables: { title, description, url } });
   };
 
   return (
@@ -125,11 +144,14 @@ const CreateTrack = () => {
                 setOpen(false);
               }}
               className={classes.cancel}
+              disabled={submitting}
             >
               Cancel
             </Button>
             <Button
-              disabled={!title.trim() || !description.trim() || !file}
+              disabled={
+                submitting || !title.trim() || !description.trim() || !file
+              }
               type="submit"
               className={classes.save}
             >
