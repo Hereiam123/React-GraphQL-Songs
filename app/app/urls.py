@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from graphene_django.views import GraphQLView
+from .views import FrontendAppView
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
+    path('', csrf_exempt(FrontendAppView.as_view())),
     path('admin/', admin.site.urls),
-    path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True)))
+    path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]
