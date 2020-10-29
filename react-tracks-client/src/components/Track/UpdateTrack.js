@@ -19,16 +19,12 @@ import EditIcon from "@material-ui/icons/Edit";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import Error from "../Shared/Error";
 import { cloudUrl, cloudName, cloudPreset } from "../../cloudinaryApi";
-//import { GET_TRACKS_QUERY } from "../../sharedQueries";
 
 const UpdateTrack = ({ track }) => {
   const classes = useStyles();
   const [updateTrack, { error: mutationError }] = useMutation(
     UPDATE_TRACK_MUTATION,
     {
-      /*refetchQueries() {
-        return [{ query: GET_TRACKS_QUERY }];
-      },*/
       onCompleted() {
         handleComplete();
       },
