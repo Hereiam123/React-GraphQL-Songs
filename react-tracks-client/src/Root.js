@@ -27,17 +27,6 @@ const Root = () => {
   );
 };
 
-const GET_TRACKS_QUERY = gql`
-  {
-    tracks {
-      id
-      title
-      description
-      url
-    }
-  }
-`;
-
 const GET_ME_QUERY = gql`
   {
     me {
