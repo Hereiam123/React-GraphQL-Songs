@@ -1,5 +1,5 @@
-import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchTracks from "../components/Track/SearchTracks";
 import TrackList from "../components/Track/TrackList";
@@ -9,15 +9,28 @@ import Error from "../components/Shared/Error";
 import { GET_TRACKS_QUERY } from "../sharedQueries";
 
 const App = () => {
-  const classes = useStyles(GET_TRACKS_QUERY);
+  const classes = useStyles();
+  const [searchResults, setSearchResults] = useState([]);
+  const [tracks, setTracks] = useState([]);
   const { loading, error, data } = useQuery(GET_TRACKS_QUERY);
+
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      console.log(searchResults);
+      setTracks(searchResults);
+    } else {
+      setTracks(data.tracks);
+    }
+  }, [searchResults]);
+
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
+
   return (
     <div className={classes.container}>
-      <SearchTracks />
+      <SearchTracks setSearchResults={setSearchResults} />
       <CreateTrack />
-      <TrackList tracks={data.tracks} />
+      <TrackList tracks={tracks} />
     </div>
   );
 };
