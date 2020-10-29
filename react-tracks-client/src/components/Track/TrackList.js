@@ -49,7 +49,7 @@ const TrackList = ({ tracks }) => {
           </AccordionDetails>
           <AccordionActions>
             <UpdateTrack track={track} />
-            <DeleteTrack />
+            <DeleteTrack track={track} />
           </AccordionActions>
         </Accordion>
       ))}
