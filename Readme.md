@@ -1,4 +1,4 @@
-## Parent Directory
+# Graphene React Music
 
 Music Track Sharing Application
 
