@@ -125,7 +125,7 @@ const UpdateTrack = ({ track }) => {
                     value={description}
                   />
                 </FormControl>
-                <FormControl fullWidth error={fileError}>
+                <FormControl fullWidth error={fileError == ""}>
                   <input
                     id="audio"
                     required

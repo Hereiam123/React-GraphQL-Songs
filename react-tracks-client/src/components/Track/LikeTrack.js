@@ -10,24 +10,18 @@ import { UserContext } from "../../Root";
 const LikeTrack = ({ trackId, likeCount }) => {
   const classes = useStyles();
   const user = useContext(UserContext);
-  const [createLike, { error }] = useMutation(CREATE_LIKE_MUTATION, {
-    /*refetchQueries() {
-      return [{ query: GET_TRACKS_QUERY }];
-    },
-    onCompleted() {
-      handleComplete();
-    },*/
-  });
+  const [createLike, { error }] = useMutation(CREATE_LIKE_MUTATION);
+
+  if (error) return <Error error={error} />;
+
   const handleDisableLikedTrack = () => {
     const userLikes = user.likeSet;
-    console.log(user);
-    console.log(userLikes);
     const isTrackLiked = userLikes.findIndex(({ track }) => {
       return track.id === trackId;
     });
     return !isTrackLiked;
   };
-  if (error) return <Error error={error} />;
+
   return (
     <IconButton
       onClick={(e) => {

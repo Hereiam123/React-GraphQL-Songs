@@ -24,8 +24,8 @@ import { GET_TRACKS_QUERY } from "../../sharedQueries";
 const CreateTrack = () => {
   const classes = useStyles();
   const [createTrack, { error }] = useMutation(CREATE_TRACK_MUTATION, {
-    refetchQueries() {
-      return [{ query: GET_TRACKS_QUERY }];
+    update(cache, response) {
+      handleUpdateCache(cache, response);
     },
     onCompleted() {
       handleComplete();
@@ -49,6 +49,17 @@ const CreateTrack = () => {
       setFile(selectedFile);
       setFileError("");
     }
+  };
+
+  const handleUpdateCache = (cache, { data: { createTrack } }) => {
+    const data = cache.readQuery({
+      query: GET_TRACKS_QUERY,
+    });
+    const tracks = data.tracks.concat(createTrack.track);
+    cache.writeQuery({
+      query: GET_TRACKS_QUERY,
+      data: { tracks },
+    });
   };
 
   const handleAudioUpload = async () => {
@@ -127,7 +138,7 @@ const CreateTrack = () => {
                   value={description}
                 />
               </FormControl>
-              <FormControl fullWidth error={fileError}>
+              <FormControl fullWidth error={fileError !== ""}>
                 <input
                   id="audio"
                   required
@@ -189,6 +200,14 @@ const CREATE_TRACK_MUTATION = gql`
         id
         title
         description
+        url
+        likes {
+          id
+        }
+        postedBy {
+          id
+          username
+        }
       }
     }
   }
