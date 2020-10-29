@@ -28,7 +28,9 @@ const Profile = ({ match }) => {
         <CardHeader
           avatar={<Avatar>{data.user.username[0]}</Avatar>}
           title={data.user.username}
-          subheader={`Joined ${data.user.dateJoined}`}
+          subheader={`Joined ${new Date(data.user.dateJoined)
+            .toISOString()
+            .substring(0, 10)}`}
         />
       </Card>
       <Paper elevation={1} className={classes.paper}>
