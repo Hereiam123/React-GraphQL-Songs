@@ -11,7 +11,9 @@ import Error from "./components/Shared/Error";
 export const UserContext = React.createContext();
 
 const Root = () => {
-  const { loading, error, data } = useQuery(GET_ME_QUERY);
+  const { loading, error, data } = useQuery(GET_ME_QUERY, {
+    fetchPolicy: "cache-and-network",
+  });
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
   return (

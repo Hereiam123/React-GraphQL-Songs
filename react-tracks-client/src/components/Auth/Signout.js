@@ -9,7 +9,6 @@ const Signout = () => {
   const classes = useStyles();
   const handleSignout = async (client) => {
     localStorage.removeItem("authToken");
-    await client.cache.reset();
     client.writeQuery({
       query: IS_USER_LOGGED_IN,
       data: {
