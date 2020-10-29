@@ -23,17 +23,14 @@ import { GET_TRACKS_QUERY } from "../../sharedQueries";
 
 const CreateTrack = () => {
   const classes = useStyles();
-  const [createTrack, { error: mutationError }] = useMutation(
-    CREATE_TRACK_MUTATION,
-    {
-      refetchQueries() {
-        return [{ query: GET_TRACKS_QUERY }];
-      },
-      onCompleted() {
-        handleComplete();
-      },
-    }
-  );
+  const [createTrack, { error }] = useMutation(CREATE_TRACK_MUTATION, {
+    refetchQueries() {
+      return [{ query: GET_TRACKS_QUERY }];
+    },
+    onCompleted() {
+      handleComplete();
+    },
+  });
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescritpion] = useState("");
@@ -41,7 +38,7 @@ const CreateTrack = () => {
   const [submitting, setSubmitting] = useState(false);
   const [fileError, setFileError] = useState("");
 
-  if (mutationError) return <Error error={mutationError} />;
+  if (error) return <Error error={error} />;
 
   const handleAudioChange = (e) => {
     const selectedFile = e.target.files[0];

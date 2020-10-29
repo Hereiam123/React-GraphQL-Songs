@@ -29,20 +29,17 @@ const Register = ({ setIsLogin }) => {
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const [
-    createUser,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(REGISTER_MUTATION);
+  const [createUser, { loading, error }] = useMutation(REGISTER_MUTATION);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await createUser({
+      await createUser({
         variables: { email, password, username },
       });
       setOpen(true);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
@@ -94,14 +91,11 @@ const Register = ({ setIsLogin }) => {
             variant="contained"
             color="secondary"
             disabled={
-              mutationLoading ||
-              !username.trim() ||
-              !email.trim() ||
-              !password.trim()
+              loading || !username.trim() || !email.trim() || !password.trim()
             }
             className={classes.submit}
           >
-            {mutationLoading ? "Registering..." : "Register"}
+            {loading ? "Registering..." : "Register"}
           </Button>
           <Button
             onClick={() => {
@@ -113,8 +107,8 @@ const Register = ({ setIsLogin }) => {
           >
             Previous user? Login in here.
           </Button>
-          {mutationLoading && <p>Loading...</p>}
-          {mutationError && <Error error={mutationError.toString()} />}
+          {loading && <p>Loading...</p>}
+          {error && <Error error={error.toString()} />}
         </form>
       </Paper>
       {/***Success Dialog***/}
@@ -138,7 +132,7 @@ const Register = ({ setIsLogin }) => {
               Login
             </Button>
             {/***Error ***/}
-            {mutationError && <div>Error</div>}
+            {error && <div>Error</div>}
           </DialogActions>
         </DialogContent>
       </Dialog>

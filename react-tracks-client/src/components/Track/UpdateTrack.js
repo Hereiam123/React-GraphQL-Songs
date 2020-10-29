@@ -24,14 +24,11 @@ import { cloudUrl, cloudName, cloudPreset } from "../../cloudinaryApi";
 const UpdateTrack = ({ track }) => {
   const classes = useStyles();
   const user = useContext(UserContext);
-  const [updateTrack, { error: mutationError }] = useMutation(
-    UPDATE_TRACK_MUTATION,
-    {
-      onCompleted() {
-        handleComplete();
-      },
-    }
-  );
+  const [updateTrack, { error }] = useMutation(UPDATE_TRACK_MUTATION, {
+    onCompleted() {
+      handleComplete();
+    },
+  });
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(track.title);
   const [description, setDescritpion] = useState(track.description);
@@ -39,7 +36,7 @@ const UpdateTrack = ({ track }) => {
   const [submitting, setSubmitting] = useState(false);
   const [fileError, setFileError] = useState("");
 
-  if (mutationError) return <Error error={mutationError} />;
+  if (error) return <Error error={error} />;
 
   const isCurrentUser = user.id === track.postedBy.id;
 

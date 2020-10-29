@@ -18,10 +18,7 @@ const Login = ({ setIsLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const classes = useStyles();
-  const [
-    loginUser,
-    { loading: mutationLoading, error: mutationError, client: mutationClient },
-  ] = useMutation(LOGIN_MUTATION);
+  const [loginUser, { loading, error, client }] = useMutation(LOGIN_MUTATION);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +27,7 @@ const Login = ({ setIsLogin }) => {
         variables: { password, username },
       });
       localStorage.setItem("authToken", res.data.tokenAuth.token);
-      mutationClient.writeQuery({
+      client.writeQuery({
         query: IS_USER_LOGGED_IN,
         data: { isLoggedIn: true },
       });
@@ -76,10 +73,10 @@ const Login = ({ setIsLogin }) => {
             fullWidth
             variant="contained"
             color="secondary"
-            disabled={mutationLoading || !username.trim() || !password.trim()}
+            disabled={loading || !username.trim() || !password.trim()}
             className={classes.submit}
           >
-            {mutationLoading ? "Logging in..." : "Login"}
+            {loading ? "Logging in..." : "Login"}
           </Button>
           <Button
             onClick={() => {
@@ -91,8 +88,8 @@ const Login = ({ setIsLogin }) => {
           >
             New user? Register here.
           </Button>
-          {mutationLoading && <p>Loading...</p>}
-          {mutationError && <Error error={mutationError.toString()} />}
+          {loading && <p>Loading...</p>}
+          {error && <Error error={error.toString()} />}
         </form>
       </Paper>
     </div>
