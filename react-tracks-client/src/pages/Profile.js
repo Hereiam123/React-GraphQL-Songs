@@ -52,14 +52,16 @@ const Profile = ({ match }) => {
           Liked Tracks
         </Typography>
         {data.user.likeSet.map(({ track }) => {
-          <div key={track.id}>
-            <Typography>
-              {track.title} - {track.likes.length} Likes -{" "}
-              {track.postedBy.username}
-            </Typography>
-            <AudioPlayer url={track.url} />
-            <Divider className={classes.divider} />
-          </div>;
+          return (
+            <div key={track.id}>
+              <Typography>
+                {track.title} - {track.likes.length} Likes -{" "}
+                {track.postedBy.username}
+              </Typography>
+              <AudioPlayer url={track.url} />
+              <Divider className={classes.divider} />
+            </div>
+          );
         })}
       </Paper>
     </div>
