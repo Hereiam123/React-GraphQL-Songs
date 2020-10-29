@@ -48,7 +48,7 @@ const TrackList = ({ tracks }) => {
             <Typography variant="body1">{track.description}</Typography>
           </AccordionDetails>
           <AccordionActions>
-            <UpdateTrack />
+            <UpdateTrack track={track} />
             <DeleteTrack />
           </AccordionActions>
         </Accordion>

@@ -23,17 +23,17 @@ import { GET_TRACKS_QUERY } from "../../sharedQueries";
 
 const CreateTrack = () => {
   const classes = useStyles();
-  const [
-    createTrack,
-    { error: mutationError, data: mutationData },
-  ] = useMutation(CREATE_TRACK_MUTATION, {
-    refetchQueries() {
-      return [{ query: GET_TRACKS_QUERY }];
-    },
-    onCompleted() {
-      handleComplete();
-    },
-  });
+  const [createTrack, { error: mutationError }] = useMutation(
+    CREATE_TRACK_MUTATION,
+    {
+      refetchQueries() {
+        return [{ query: GET_TRACKS_QUERY }];
+      },
+      onCompleted() {
+        handleComplete();
+      },
+    }
+  );
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescritpion] = useState("");
@@ -172,7 +172,11 @@ const CreateTrack = () => {
               type="submit"
               className={classes.save}
             >
-              Add Track
+              {submitting ? (
+                <CircularProgress size={24} className={classes.save} />
+              ) : (
+                "Add Track"
+              )}
             </Button>
           </DialogActions>
         </form>
