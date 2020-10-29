@@ -16,12 +16,11 @@ const App = () => {
 
   useEffect(() => {
     if (searchResults.length > 0) {
-      console.log(searchResults);
       setTracks(searchResults);
-    } else {
+    } else if (data) {
       setTracks(data.tracks);
     }
-  }, [searchResults]);
+  }, [searchResults, data]);
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
