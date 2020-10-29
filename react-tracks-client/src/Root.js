@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Header from "./components/Shared/Header";
 import Loading from "./components/Shared/Loading";
 import Error from "./components/Shared/Error";
+import { GET_ME_QUERY } from "./sharedQueries";
 
 export const UserContext = React.createContext();
 
@@ -28,20 +29,5 @@ const Root = () => {
     </Router>
   );
 };
-
-const GET_ME_QUERY = gql`
-  {
-    me {
-      id
-      username
-      email
-      likeSet {
-        track {
-          id
-        }
-      }
-    }
-  }
-`;
 
 export default withRoot(Root);

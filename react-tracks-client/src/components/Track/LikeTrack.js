@@ -4,22 +4,25 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IconButton } from "@material-ui/core";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import Error from "../Shared/Error";
-
+import { GET_ME_QUERY } from "../../sharedQueries";
 import { UserContext } from "../../Root";
 
 const LikeTrack = ({ trackId, likeCount }) => {
   const classes = useStyles();
   const user = useContext(UserContext);
-  const [createLike, { error }] = useMutation(CREATE_LIKE_MUTATION);
+  const [createLike, { error }] = useMutation(CREATE_LIKE_MUTATION, {
+    refetchQueries: [{ query: GET_ME_QUERY }],
+  });
 
   if (error) return <Error error={error} />;
 
   const handleDisableLikedTrack = () => {
     const userLikes = user.likeSet;
-    const isTrackLiked = userLikes.findIndex(({ track }) => {
-      return track.id === trackId;
-    });
-    return !isTrackLiked;
+    const isTrackLiked =
+      userLikes.findIndex(({ track }) => {
+        return track.id === trackId;
+      }) > -1;
+    return isTrackLiked;
   };
 
   return (

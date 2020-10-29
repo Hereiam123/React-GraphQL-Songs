@@ -12,9 +12,6 @@ const DeleteTrack = ({ track }) => {
     update(cache, response) {
       handleUpdateCache(cache, response);
     },
-    onCompleted(data) {
-      console.log(data);
-    },
   });
 
   if (error) return <Error error={error} />;

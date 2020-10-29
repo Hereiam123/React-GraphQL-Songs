@@ -23,3 +23,18 @@ export const GET_TRACKS_QUERY = gql`
     }
   }
 `;
+
+export const GET_ME_QUERY = gql`
+  {
+    me {
+      id
+      username
+      email
+      likeSet {
+        track {
+          id
+        }
+      }
+    }
+  }
+`;
