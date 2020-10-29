@@ -25,7 +25,7 @@ const TrackList = ({ tracks }) => {
         <Accordion key={track.id}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <ListItem className={classes.root}>
-              <LikeTrack />
+              <LikeTrack trackId={track.id} likeCount={track.likes.length} />
               <ListItemText
                 primaryTypographyProps={{
                   variant: "h4",
