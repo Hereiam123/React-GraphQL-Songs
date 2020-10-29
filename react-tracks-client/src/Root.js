@@ -1,7 +1,7 @@
 import React from "react";
 import withRoot from "./withRoot";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import App from "./pages/App";
 import Profile from "./pages/Profile";
 import Header from "./components/Shared/Header";
