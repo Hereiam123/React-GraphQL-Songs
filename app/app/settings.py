@@ -27,7 +27,7 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -154,6 +154,7 @@ STATIC_URL = '/static/'
 print(os.path.join(os.path.dirname(BASE_DIR), 'react-tracks-client'))
 
 REACT_APP_DIR = os.path.join(os.path.dirname(BASE_DIR), 'react-tracks-client')
-STATICFILES_DIRS = [
-    os.path.join(REACT_APP_DIR, 'build', 'static'),
-]
+# STATICFILES_DIRS = [
+#    os.path.join(REACT_APP_DIR, 'build', 'static'),
+# ]
+STATIC_ROOT = os.path.join(REACT_APP_DIR, 'static/')
