@@ -7,6 +7,7 @@ import cloudinary.uploader
 import cloudinary.api
 from .models import Track, Like
 from users.schema import UserType
+import uuid
 
 
 class TrackType(DjangoObjectType):
@@ -53,8 +54,12 @@ class CreateTrack(graphene.Mutation):
 
         if user.is_anonymous:
             raise GraphQLError('Log in to add a track.')
+
+        public_id = uuid.uuid1()
         
-        file_upload = cloudinary.uploader.upload(file=file, resource_type="raw")
+        file_upload = cloudinary.uploader.upload(file=file, resource_type="raw", public_id=str(public_id))
+
+        print(file_upload)
 
         if file_upload.get('error'):
             raise GraphQLError("File upload failure!")
@@ -62,7 +67,7 @@ class CreateTrack(graphene.Mutation):
         file_url = file_upload.get('secure_url')
 
         track = Track(title=title, description=description,
-                      url=file_url, posted_by=user)
+                      url=file_url, posted_by=user, public_id=public_id)
         track.save()
         return CreateTrack(track=track)
 
@@ -83,10 +88,19 @@ class UpdateTrack(graphene.Mutation):
         if track.posted_by != user:
             raise GraphQLError("Not permitted to update this track.")
 
+        file_type = track.url.split(".")[-1]
+
+        file_destroy = cloudinary.uploader.destroy(track.public_id+"."+file_type, resource_type="raw")
+
+        print(track.public_id+"."+file_type)
+
+        if file_destroy.get('result') == 'not found':
+            raise GraphQLError("File update failure!")
+
         file_upload = cloudinary.uploader.upload(file=file, resource_type="raw")
 
         if file_upload.get('error'):
-            raise GraphQLError("File upload failure!")
+            raise GraphQLError("File update failure!")
 
         file_url = file_upload.get('secure_url')
 
@@ -110,6 +124,13 @@ class DeleteTrack(graphene.Mutation):
 
         if track.posted_by != user:
             raise GraphQLError("Not permitted to delete this track.")
+
+        file_type = track.url.split(".")[-1]
+        print(track.public_id+"."+file_type)
+        file_destroy = cloudinary.uploader.destroy(track.public_id+"."+str(file_type), resource_type="raw")
+
+        if file_destroy.get('result') == 'not found':
+            raise GraphQLError("File update failure!")
 
         track.delete()
         return DeleteTrack(track_id=track_id)
