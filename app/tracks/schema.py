@@ -2,7 +2,9 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphql import GraphQLError
 from django.db.models import Q
-
+from graphene_file_upload.scalars import Upload
+import cloudinary.uploader
+import cloudinary.api
 from .models import Track, Like
 from users.schema import UserType
 
@@ -44,15 +46,23 @@ class CreateTrack(graphene.Mutation):
         title = graphene.String()
         description = graphene.String()
         url = graphene.String()
+        file = Upload(required=True)
 
-    def mutate(self, info, title, description, url):
+    def mutate(self, info, title, description, file):
         user = info.context.user or None
 
         if user.is_anonymous:
             raise GraphQLError('Log in to add a track.')
+        
+        file_upload = cloudinary.uploader.upload(file=file, resource_type="raw")
+
+        if file_upload.get('error'):
+            raise GraphQLError("File upload failure!")
+
+        file_url = file_upload.get('secure_url')
 
         track = Track(title=title, description=description,
-                      url=url, posted_by=user)
+                      url=file_url, posted_by=user)
         track.save()
         return CreateTrack(track=track)
 
@@ -64,18 +74,25 @@ class UpdateTrack(graphene.Mutation):
         track_id = graphene.Int(required=True)
         title = graphene.String()
         description = graphene.String()
-        url = graphene.String()
+        file = Upload(required=True)
 
-    def mutate(self, info, title, description, url, track_id):
+    def mutate(self, info, title, description, file, track_id):
         user = info.context.user
         track = Track.objects.get(id=track_id)
 
         if track.posted_by != user:
             raise GraphQLError("Not permitted to update this track.")
 
+        file_upload = cloudinary.uploader.upload(file=file, resource_type="raw")
+
+        if file_upload.get('error'):
+            raise GraphQLError("File upload failure!")
+
+        file_url = file_upload.get('secure_url')
+
         track.title = title
         track.description = description
-        track.url = url
+        track.url = file_url
 
         track.save()
         return UpdateTrack(track=track)

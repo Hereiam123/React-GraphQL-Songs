@@ -5,29 +5,21 @@ import { useQuery } from "@apollo/client";
 import { IS_USER_LOGGED_IN } from "./sharedQueries";
 import Auth from "./components/Auth";
 import * as serviceWorker from "./serviceWorker";
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  createHttpLink,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { createUploadLink } from "apollo-upload-client";
 
 const cache = new InMemoryCache();
-const httpLink = createHttpLink({
+const httpLink = createUploadLink({
   uri: "http://localhost:8000/graphql/",
+  headers: {
+    authorization: localStorage.getItem("authToken")
+      ? `JWT ${localStorage.getItem("authToken")}`
+      : "",
+  },
 });
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("authToken");
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `JWT ${token}` : "",
-    },
-  };
-});
+
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: httpLink,
   cache,
 });
 

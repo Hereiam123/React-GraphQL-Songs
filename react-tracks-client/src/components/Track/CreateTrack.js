@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
-import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Dialog,
@@ -18,7 +17,6 @@ import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import Error from "../Shared/Error";
-import { cloudUrl, cloudName, cloudPreset } from "../../cloudinaryApi";
 import { GET_TRACKS_QUERY } from "../../sharedQueries";
 
 const CreateTrack = () => {
@@ -62,21 +60,6 @@ const CreateTrack = () => {
     });
   };
 
-  const handleAudioUpload = async () => {
-    const data = new FormData();
-    try {
-      data.append("file", file);
-      data.append("resource_type", "raw");
-      data.append("upload_preset", cloudPreset);
-      data.append("cloud_name", cloudName);
-      const res = await axios.post(cloudUrl, data);
-      return res.data.url;
-    } catch (e) {
-      console.error("Error with cloudinary " + e);
-      setSubmitting(false);
-    }
-  };
-
   const handleComplete = () => {
     setOpen(false);
     setSubmitting(false);
@@ -88,8 +71,7 @@ const CreateTrack = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    const url = await handleAudioUpload();
-    createTrack({ variables: { title, description, url } });
+    createTrack({ variables: { title, description, file } });
   };
 
   return (
@@ -194,8 +176,8 @@ const CreateTrack = () => {
 };
 
 const CREATE_TRACK_MUTATION = gql`
-  mutation($title: String!, $description: String!, $url: String!) {
-    createTrack(title: $title, description: $description, url: $url) {
+  mutation($title: String!, $description: String!, $file: Upload!) {
+    createTrack(title: $title, description: $description, file: $file) {
       track {
         id
         title
