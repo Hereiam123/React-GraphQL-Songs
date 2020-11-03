@@ -66,7 +66,7 @@ const CreateTrack = () => {
     setFile("");
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
     createTrack({ variables: { title, description, file } });

@@ -59,8 +59,6 @@ class CreateTrack(graphene.Mutation):
         
         file_upload = cloudinary.uploader.upload(file=file, resource_type="raw", public_id=str(public_id))
 
-        print(file_upload)
-
         if file_upload.get('error'):
             raise GraphQLError("File upload failure!")
 
@@ -97,7 +95,9 @@ class UpdateTrack(graphene.Mutation):
         if file_destroy.get('result') == 'not found':
             raise GraphQLError("File update failure!")
 
-        file_upload = cloudinary.uploader.upload(file=file, resource_type="raw")
+        public_id = uuid.uuid1()
+        
+        file_upload = cloudinary.uploader.upload(file=file, resource_type="raw", public_id=str(public_id))
 
         if file_upload.get('error'):
             raise GraphQLError("File update failure!")
@@ -107,6 +107,7 @@ class UpdateTrack(graphene.Mutation):
         track.title = title
         track.description = description
         track.url = file_url
+        track.public_id = public_id
 
         track.save()
         return UpdateTrack(track=track)

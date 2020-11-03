@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useMutation, gql } from "@apollo/client";
-import { IconButton } from "@material-ui/core";
+import { IconButton, CircularProgress } from "@material-ui/core";
 import TrashIcon from "@material-ui/icons/DeleteForeverOutlined";
 import Error from "../Shared/Error";
 import { UserContext } from "../../Root";
@@ -8,9 +8,13 @@ import { GET_TRACKS_QUERY } from "../../sharedQueries";
 
 const DeleteTrack = ({ track }) => {
   const user = useContext(UserContext);
+  const [deleting, setDeleting] = useState(false);
   const [deleteTrack, { error }] = useMutation(DELETE_TRACK_MUTATION, {
     update(cache, response) {
       handleUpdateCache(cache, response);
+    },
+    onCompleted() {
+      handleComplete();
     },
   });
 
@@ -31,6 +35,15 @@ const DeleteTrack = ({ track }) => {
     });
   };
 
+  const handleDelete = () => {
+    setDeleting(true);
+    deleteTrack({ variables: { trackId: track.id } });
+  };
+
+  const handleComplete = () => {
+    setDeleting(false);
+  };
+
   const isCurrentUser = user.id === track.postedBy.id;
 
   if (error) {
@@ -41,10 +54,10 @@ const DeleteTrack = ({ track }) => {
     isCurrentUser && (
       <IconButton
         onClick={() => {
-          deleteTrack({ variables: { trackId: track.id } });
+          handleDelete();
         }}
       >
-        <TrashIcon />
+        {deleting ? <CircularProgress size={24} /> : <TrashIcon />}
       </IconButton>
     )
   );
