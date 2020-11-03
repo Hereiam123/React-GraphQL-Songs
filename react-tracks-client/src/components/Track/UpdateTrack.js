@@ -34,8 +34,6 @@ const UpdateTrack = ({ track }) => {
   const [submitting, setSubmitting] = useState(false);
   const [fileError, setFileError] = useState("");
 
-  if (error) return <Error error={error} />;
-
   const isCurrentUser = user.id === track.postedBy.id;
 
   const handleAudioChange = (e) => {
@@ -62,6 +60,10 @@ const UpdateTrack = ({ track }) => {
     setSubmitting(true);
     updateTrack({ variables: { title, description, file, trackId: track.id } });
   };
+
+  if (error) {
+    return <Error error="Update Track Error" />;
+  }
 
   return (
     isCurrentUser && (

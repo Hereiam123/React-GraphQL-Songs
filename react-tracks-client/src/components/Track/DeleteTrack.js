@@ -14,8 +14,6 @@ const DeleteTrack = ({ track }) => {
     },
   });
 
-  if (error) return <Error error={error} />;
-
   const handleUpdateCache = (cache, { data: { deleteTrack } }) => {
     const data = cache.readQuery({
       query: GET_TRACKS_QUERY,
@@ -34,6 +32,10 @@ const DeleteTrack = ({ track }) => {
   };
 
   const isCurrentUser = user.id === track.postedBy.id;
+
+  if (error) {
+    return <Error error="Delete Track Error" />;
+  }
 
   return (
     isCurrentUser && (

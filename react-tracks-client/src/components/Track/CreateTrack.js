@@ -36,8 +36,6 @@ const CreateTrack = () => {
   const [submitting, setSubmitting] = useState(false);
   const [fileError, setFileError] = useState("");
 
-  if (error) return <Error error={error} />;
-
   const handleAudioChange = (e) => {
     const selectedFile = e.target.files[0];
     const fileSizeLimit = 10000000; //10mb
@@ -73,6 +71,10 @@ const CreateTrack = () => {
     setSubmitting(true);
     createTrack({ variables: { title, description, file } });
   };
+
+  if (error) {
+    return <Error error="Create Track Error" />;
+  }
 
   return (
     <>
