@@ -10,7 +10,7 @@ import { createUploadLink } from "apollo-upload-client";
 
 const cache = new InMemoryCache();
 const httpLink = createUploadLink({
-  uri: "http://162.243.169.189/graphql/",
+  uri: "http://localhost:8000/graphql/",
   headers: {
     authorization: localStorage.getItem("authToken")
       ? `JWT ${localStorage.getItem("authToken")}`

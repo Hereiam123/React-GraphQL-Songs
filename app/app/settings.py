@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'reactracks',
+        'NAME': 'tracksDB',
         'USER': 'postgres',
         'PASSWORD': 'bdem',
         'HOST': 'localhost',
