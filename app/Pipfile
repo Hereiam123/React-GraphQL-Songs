@@ -15,6 +15,7 @@ pep8 = "*"
 psycopg2-binary = "*"
 graphene-file-upload = "*"
 cloudinary = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
