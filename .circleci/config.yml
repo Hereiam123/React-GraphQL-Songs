@@ -1,9 +1,9 @@
 workflows:
   version: 2
-  build-react-and-django:
+  build-django-and-react:
     jobs:
       - build
-      - build-django
+      - build-django:
           requires:
             - build
 
@@ -54,7 +54,7 @@ jobs:
             pipenv install
             pipenv run python manage.py migrate
             pipenv run python manage.py collectstatic --noinput
-          
+
       - save_cache:
           paths:
             - ~/.local/share/virtualenvs/venv # this path depends on where pipenv creates a virtualenv
