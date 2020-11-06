@@ -17,7 +17,7 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout:
-        path: ~/React-GraphQL-Songs
+          path: ~/React-GraphQL-Songs
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
