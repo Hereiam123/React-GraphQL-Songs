@@ -2,36 +2,60 @@ workflows:
   version: 2
   build-django-and-react:
     jobs:
-      - build
+      - prepare
+      - build:
+          requires:
+            - prepare
       - build-django:
           requires:
             - build
 
 jobs:
-  build:
+  prepare:
     working_directory: ~/React-GraphQL-Songs/react-tracks-client
+
     docker:
       - image: circleci/node:10
+
+    steps:
+      - checkout:
+        path: ~/React-GraphQL-Songs
+      - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run:
+          command: npm install
+      - save_cache:
+        paths:
+          - node_modules
+          - ~/.npm
+          - ~/.cache
+        key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+        root: ~/React-GraphQL-Songs/react-tracks-client
+        paths: .
+
+  build:
+    working_directory: ~/React-GraphQL-Songs/react-tracks-client
+
+    docker:
+      - image: circleci/node:10
+
     steps:
       - checkout:
           path: ~/React-GraphQL-Songs
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
+
       - run:
-          command: |
-            npm install
-            npm run build
-      - save_cache:
-          paths:
-            - node_modules
-            - ~/.npm
-            - ~/.cache
-          key: v1-dependencies-{{ checksum "package.json" }}
+          command: npm run build
 
       - persist_to_workspace:
-          root: ~/React-GraphQL-Songs/
+          root: ~/React-GraphQL-Songs
           paths: .
 
   build-django:
