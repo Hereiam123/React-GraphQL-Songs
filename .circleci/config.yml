@@ -1,31 +1,48 @@
-workflows:
-  version: 2
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/React-GraphQL-Songs/react-tracks-client
+    steps:
+      - checkout
+      - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: npm install
+      - save_cache:
+        paths:
+          - node_modules
+          - ~/.npm
+          - ~/.cache
+        key: v1-dependencies-{{ checksum "package.json" }}
+
   build-django:
-    jobs:
-      build:
-        working_directory: ~/React-GraphQL-Songs/app
-        docker:
-          - image: circleci/python:3.8
-            environment:
-              PIPENV_VENV_IN_PROJECT: true
-              DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-          - image: circleci/postgres:9.6.2
-            environment:
-              POSTGRES_USER: postgres
-              POSTGRES_DB: postgres
-              POSTGRES_PASSWORD: ""
-        steps:
-          - checkout:
-              path: ~/React-GraphQL-Songs
-          - restore_cache:
-              keys:
-                - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          - run:
-              command: |
-                sudo pip install pipenv
-                pipenv install
-                pipenv run python manage.py migrate
-          - save_cache:
-              paths:
-                - ~/.local/share/virtualenvs/venv # this path depends on where pipenv creates a virtualenv
-              key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+    working_directory: ~/React-GraphQL-Songs/app
+    docker:
+      - image: circleci/python:3.8
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+      - image: circleci/postgres:9.6.2
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: ""
+    steps:
+      - checkout:
+          path: ~/React-GraphQL-Songs
+      - restore_cache:
+          keys:
+            - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - run:
+          command: |
+            sudo pip install pipenv
+            pipenv install
+            pipenv run python manage.py migrate
+            pipenv run python manage.py collectstatic
+      - save_cache:
+          paths:
+            - ~/.local/share/virtualenvs/venv # this path depends on where pipenv creates a virtualenv
+          key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
