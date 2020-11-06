@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-django:
     working_directory: ~/React-GraphQL-Songs/app
     docker:
       - image: circleci/python:3.8
@@ -23,9 +23,6 @@ jobs:
             sudo pip install pipenv
             pipenv install
             pipenv run python manage.py migrate
-      - run:
-          command: pipenv run python manage.py runserver
-          background: true
       - save_cache:
           paths:
             - ~/.local/share/virtualenvs/venv # this path depends on where pipenv creates a virtualenv
