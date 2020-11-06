@@ -3,7 +3,7 @@ workflows:
   build-django-and-react:
     jobs:
       - prepare
-      - build
+      - build:
           requires:
             - prepare
       - build-django:
