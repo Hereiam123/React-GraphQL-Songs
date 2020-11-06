@@ -1,4 +1,10 @@
-version: 2
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - build-django
+
 jobs:
   build:
     working_directory: ~/React-GraphQL-Songs/react-tracks-client
