@@ -9,6 +9,7 @@ db.sqlite3
 media
 
 build
+secret
 
 # Backup files # 
 *.bak 
