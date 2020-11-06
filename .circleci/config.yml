@@ -1,12 +1,11 @@
 workflows:
   version: 2
   build-react-and-django:
-    build:
-      jobs:
-        - build
-        - build-django
-            requires:
-              - build
+    jobs:
+      - build
+      - build-django
+          requires:
+            - build
 
 jobs:
   build:
