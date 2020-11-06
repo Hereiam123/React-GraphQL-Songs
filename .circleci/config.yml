@@ -33,6 +33,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
   build:
+    working_directory: ~/React-GraphQL-Songs/react-tracks-client
+    docker:
+      - image: circleci/node:10
     steps:
       - checkout:
           path: ~/React-GraphQL-Songs
