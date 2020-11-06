@@ -13,28 +13,26 @@ workflows:
 jobs:
   prepare:
     working_directory: ~/React-GraphQL-Songs/react-tracks-client
-
     docker:
       - image: circleci/node:10
-
     steps:
       - checkout:
-        path: ~/React-GraphQL-Songs
+          path: ~/React-GraphQL-Songs
       - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
       - run:
           command: npm install
       - save_cache:
-        paths:
-          - node_modules
-          - ~/.npm
-          - ~/.cache
-        key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+            - ~/.npm
+            - ~/.cache
+          key: v1-dependencies-{{ checksum "package.json" }}
       - persist_to_workspace:
-        root: ~/React-GraphQL-Songs/react-tracks-client
-        paths: .
+          root: ~/React-GraphQL-Songs/react-tracks-client
+          paths: .
 
   build:
     working_directory: ~/React-GraphQL-Songs/react-tracks-client
