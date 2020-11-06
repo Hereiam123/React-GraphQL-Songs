@@ -1,22 +1,23 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/React-GraphQL-Songs/react-tracks-client
     docker:
       - image: circleci/node:10
-    working_directory: ~/React-GraphQL-Songs/react-tracks-client
     steps:
-      - checkout
+      - checkout:
+          path: ~/React-GraphQL-Songs
       - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
       - run: npm install
       - save_cache:
-        paths:
-          - node_modules
-          - ~/.npm
-          - ~/.cache
-        key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+            - ~/.npm
+            - ~/.cache
+          key: v1-dependencies-{{ checksum "package.json" }}
 
   build-django:
     working_directory: ~/React-GraphQL-Songs/app
