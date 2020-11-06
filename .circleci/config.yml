@@ -1,11 +1,12 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/app
+    working_directory: ~/React-GraphQL-Songs/app
     docker:
       - image: circleci/python:3.8
     steps:
-      - checkout
+      - checkout:
+          path: ~/React-GraphQL-Songs
       - restore_cache:
           keys:
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
