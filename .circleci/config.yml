@@ -3,7 +3,7 @@ workflows:
   build-django-and-react:
     jobs:
       - prepare
-      - build:
+      - build
           requires:
             - prepare
       - build-django:
@@ -17,20 +17,19 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout:
-          path: ~/React-GraphQL-Songs
+        path: ~/React-GraphQL-Songs
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run:
-          command: |
-            npm install
+      - run: npm install
       - save_cache:
           paths:
             - node_modules
-            - ~/.npm
-            - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
 
   build:
     working_directory: ~/React-GraphQL-Songs/react-tracks-client
@@ -39,8 +38,6 @@ jobs:
     steps:
       - checkout:
           path: ~/React-GraphQL-Songs
-      - attach_workspace:
-          at: .
       - run: npm run build
       - persist_to_workspace:
           root: .
@@ -71,6 +68,7 @@ jobs:
             pipenv install
             pipenv run python manage.py migrate
             pipenv run python manage.py collectstatic --noinput
+
       - save_cache:
           paths:
             - ~/.local/share/virtualenvs/venv # this path depends on where pipenv creates a virtualenv
