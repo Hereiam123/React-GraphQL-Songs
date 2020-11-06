@@ -22,7 +22,7 @@ jobs:
       - run:
           command: |
             sudo pip install pipenv
-            pipenv shell
+            pipenv install
             python manage.py migrate
       - run:
           command: pipenv run python manage.py runserver
