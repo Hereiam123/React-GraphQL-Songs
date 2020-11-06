@@ -30,6 +30,10 @@ jobs:
             - ~/.cache
           key: v1-dependencies-{{ checksum "package.json" }}
 
+      - persist_to_workspace:
+          root: ~/react-tracks-client
+          paths: .
+
   build-django:
     working_directory: ~/React-GraphQL-Songs/app
     docker:
