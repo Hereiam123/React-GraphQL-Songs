@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'cloudinary'
 ]
 
-cloudinary.config(cloud_name=CLOUD_NAME, api_key=API_KEY, api_secret=API_SECRET)
+cloudinary.config(cloud_name=os.environ['CLOUD_NAME'], api_key=os.environ['API_KEY'], api_secret=os.environ['API_SECRET'])
 
 GRAPHENE = {
     'SCHEMA': 'app.schema.schema',
