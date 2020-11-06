@@ -4,8 +4,8 @@ workflows:
     jobs:
       - build
       - build-django
-        requires:
-          - build
+          requires:
+            - build
 
 jobs:
   build:
