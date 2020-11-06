@@ -1,5 +1,6 @@
 version: 2
 jobs:
+  working_directory: ~/app
   build:
     docker:
       - image: circleci/python:3.8
