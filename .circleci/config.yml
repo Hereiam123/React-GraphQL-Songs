@@ -4,6 +4,8 @@ workflows:
     jobs:
       - build
       - build-django
+        requires:
+          - build
 
 jobs:
   build:
@@ -51,7 +53,8 @@ jobs:
             sudo pip install pipenv
             pipenv install
             pipenv run python manage.py migrate
-            pipenv run python manage.py collectstatic
+            pipenv run python manage.py collectstatic --noinput
+          
       - save_cache:
           paths:
             - ~/.local/share/virtualenvs/venv # this path depends on where pipenv creates a virtualenv
