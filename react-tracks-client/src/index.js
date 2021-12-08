@@ -11,7 +11,7 @@ import { createUploadLink } from "apollo-upload-client";
 const cache = new InMemoryCache();
 
 const httpLink = createUploadLink({
-  uri: process.env.NODE_ENV ? "https://www.reactsongs.com/graphql" : "http://localhost:1337/graphql/",
+  uri: process.env.NODE_ENV ? "https://www.reactsongs.com/graphql/" : "http://localhost:1337/graphql/",
   headers: {
     authorization: localStorage.getItem("authToken")
       ? `JWT ${localStorage.getItem("authToken")}`
