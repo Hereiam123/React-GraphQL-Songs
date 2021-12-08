@@ -30,7 +30,6 @@ DEBUG = False
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '143.198.185.124', 'reactsongs.com', 'www.reactsongs.com',"*","app"]
 
 # Application definition
-
 INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.admin',

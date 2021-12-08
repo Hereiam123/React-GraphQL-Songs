@@ -11,7 +11,6 @@ services:
 
   app-build:
     build: ./react-tracks-client
-    restart: always
     volumes:
       - app-volume:/usr/src/app/react-tracks
     depends_on:
