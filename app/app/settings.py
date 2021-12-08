@@ -27,7 +27,7 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '143.198.185.124', 'reactsongs.com', 'www.reactsongs.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '143.198.185.124', 'reactsongs.com', 'www.reactsongs.com', "app"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -57,14 +57,13 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ["reactsongs.com","www.reactsongs.com"]
+CORS_ALLOWED_ORIGINS = ["https://reactsongs.com","https://www.reactsongs.com"]
 
 AUTHENTICATION_BACKENDS = [
     'graphql_jwt.backends.JSONWebTokenBackend',
