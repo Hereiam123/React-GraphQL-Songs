@@ -8,15 +8,23 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
+  app-build:
+    build: ./react-tracks-client
+    volumes:
+      - app-volume:/usr/src/app/react-tracks
+    depends_on:
+      - db
+
   web:
     build: ./app
     command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
     volumes:
+      - app-volume:/usr/src/app/react-tracks
       - static_volume:/usr/src/app/static
     expose:
       - 8000
     depends_on:
-      - db
+      - app-build
 
   nginx:
     build: ./nginx
@@ -30,3 +38,4 @@ services:
 volumes:
   postgres_data:
   static_volume:
+  app-volume:
