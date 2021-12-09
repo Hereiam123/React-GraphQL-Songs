@@ -13,7 +13,7 @@ const cache = new InMemoryCache();
 
 const httpLink = createUploadLink({
   uri: process.env.NODE_ENV
-    ? "http://www.reactsongs.com/graphql/"
+    ? "https://www.reactsongs.com/graphql/"
     : "http://localhost:1337/graphql/"
 });
 
