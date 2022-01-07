@@ -73,7 +73,7 @@ const CreateTrack = () => {
   };
 
   if (error) {
-    return <Error error="Create Track Error" />;
+    return <Error error={error.toString()}/>;
   }
 
   return (

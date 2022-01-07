@@ -47,7 +47,7 @@ const DeleteTrack = ({ track }) => {
   const isCurrentUser = user.id === track.postedBy.id;
 
   if (error) {
-    return <Error error="Delete Track Error" />;
+    return <Error error={error.toString()} />;
   }
 
   return (

@@ -62,7 +62,7 @@ const UpdateTrack = ({ track }) => {
   };
 
   if (error) {
-    return <Error error="Update Track Error" />;
+    return <Error error={error.toString()} />;
   }
 
   return (
