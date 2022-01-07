@@ -3,6 +3,7 @@ import withRoot from "./withRoot";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import App from "./pages/App";
+import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Header from "./components/Shared/Header";
 import Loading from "./components/Shared/Loading";
@@ -16,7 +17,7 @@ const Root = () => {
     fetchPolicy: "cache-and-network",
   });
   if (loading) return <Loading />;
-  if (error) return <Error error={error} />;
+  if (error) return <Error error={error.toString()} />;
   return (
     <Router>
       <UserContext.Provider value={data.me}>
@@ -24,6 +25,7 @@ const Root = () => {
         <Switch>
           <Route path="/" exact component={App} />
           <Route path="/profile/:id" component={Profile} />
+          <Route component={NotFound} />
         </Switch>
       </UserContext.Provider>
     </Router>

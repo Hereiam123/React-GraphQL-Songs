@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  db:
+    image: "postgres:11"
+    restart: always
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  app-build:
+    build: ./react-tracks-client
+    volumes:
+      - app-volume:/usr/src/app/react-tracks
+    depends_on:
+      - db
+
+  web:
+    build: ./app
+    restart: always
+    command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - app-volume:/usr/src/app/react-tracks
+      - static_volume:/usr/src/app/static
+    expose:
+      - 8000
+    depends_on:
+      - app-build
+
+  nginx:
+    build: ./nginx
+    restart: always
+    volumes:
+      - static_volume:/usr/src/app/static
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  app-volume:

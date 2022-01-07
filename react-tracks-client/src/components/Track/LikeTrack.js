@@ -14,7 +14,7 @@ const LikeTrack = ({ trackId, likeCount }) => {
     refetchQueries: [{ query: GET_ME_QUERY }],
   });
 
-  if (error) return <Error error={error} />;
+  if (error) return <Error error={error.toString()} />;
 
   const handleDisableLikedTrack = () => {
     const userLikes = user.likeSet;
