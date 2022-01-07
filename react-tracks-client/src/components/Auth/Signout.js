@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import { ApolloConsumer } from "@apollo/client";
 import { IS_USER_LOGGED_IN } from "../../sharedQueries";
 import ExitToApp from "@material-ui/icons/ExitToApp";
@@ -7,6 +8,7 @@ import { Typography, Button } from "@material-ui/core";
 
 const Signout = () => {
   const classes = useStyles();
+  const history = useHistory();
   const handleSignout = async (client) => {
     localStorage.removeItem("authToken");
     client.writeQuery({
@@ -15,6 +17,7 @@ const Signout = () => {
         isLoggedIn: false,
       },
     });
+    history.push('/');
   };
   return (
     <ApolloConsumer>
