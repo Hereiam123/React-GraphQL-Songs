@@ -23,7 +23,7 @@ const App = () => {
   }, [searchResults, data]);
 
   if (loading) return <Loading />;
-  if (error) return <Error error={error} />;
+  if (error) return <Error error={error.toString()} />;
 
   return (
     <div className={classes.container}>

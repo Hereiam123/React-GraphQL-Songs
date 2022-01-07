@@ -9,6 +9,7 @@ import {
   Typography,
   Divider,
 } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import AudiotrackIcon from "@material-ui/icons/Audiotrack";
 import AudioPlayer from "../components/Shared/AudioPlayer";
@@ -17,11 +18,17 @@ import Loading from "../components/Shared/Loading";
 
 const Profile = ({ match }) => {
   const classes = useStyles();
+  const history = useHistory();
   const { loading, error, data } = useQuery(GET_PROFILE, {
     variables: { id: match.params.id },
   });
-  if (loading) return <Loading />;
-  if (error) return <Error error={error} />;
+  if (loading) {
+    return <Loading />;
+  }
+  if (error) {
+    history.push("/");
+    return <Error error={error.toString()} />;
+  }
   return (
     <div>
       <Card className={classes.card}>
@@ -71,7 +78,7 @@ const Profile = ({ match }) => {
 };
 
 const GET_PROFILE = gql`
-  query($id: Int!) {
+  query ($id: Int!) {
     user(id: $id) {
       id
       username

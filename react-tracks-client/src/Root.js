@@ -17,7 +17,7 @@ const Root = () => {
     fetchPolicy: "cache-and-network",
   });
   if (loading) return <Loading />;
-  if (error) return <Error error={error} />;
+  if (error) return <Error error={error.toString()} />;
   return (
     <Router>
       <UserContext.Provider value={data.me}>
