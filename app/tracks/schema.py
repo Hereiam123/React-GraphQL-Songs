@@ -54,7 +54,9 @@ class CreateTrack(graphene.Mutation):
 
         if user.is_anonymous:
             raise GraphQLError('Log in to add a track.')
-
+        
+        print(user.track_set.all().count())
+        
         public_id = uuid.uuid1()
         
         file_upload = cloudinary.uploader.upload(file=file, resource_type="raw", public_id=str(public_id))
@@ -89,8 +91,6 @@ class UpdateTrack(graphene.Mutation):
         file_type = track.url.split(".")[-1]
 
         file_destroy = cloudinary.uploader.destroy(track.public_id+"."+file_type, resource_type="raw")
-
-        print(track.public_id+"."+file_type)
 
         if file_destroy.get('result') == 'not found':
             raise GraphQLError("File update failure!")
