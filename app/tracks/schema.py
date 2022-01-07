@@ -55,7 +55,7 @@ class CreateTrack(graphene.Mutation):
         if user.is_anonymous:
             raise GraphQLError('Log in to add a track.')
         
-        if user.track_set.all().count() >= 0:
+        if user.track_set.all().count() >= 10:
             raise GraphQLError('Reached max track upload count of 10.')
         
         public_id = uuid.uuid1()
