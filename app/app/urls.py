@@ -21,6 +21,6 @@ from django.views.decorators.csrf import csrf_exempt
 from graphene_file_upload.django import FileUploadGraphQLView
 
 urlpatterns = [
-    url(r'^graphql', FileUploadGraphQLView.as_view(graphiql=True)),
-    url(r'^.*$', FrontendAppView.as_view())
+    url(r'^graphql', csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True))),
+    url(r'^.*$', FrontendAppView.as_view()),
 ]
