@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ["https://reactsongs.com","https://www.reactsongs.com"]
+CORS_ALLOWED_ORIGINS = ["https://reactsongs.com","https://www.reactsongs.com", 'http://localhost:3000']
 
 AUTHENTICATION_BACKENDS = [
     'graphql_jwt.backends.JSONWebTokenBackend',
@@ -139,5 +139,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'react-tracks/build'),
+    #os.path.join(BASE_DIR, 'react-tracks/build'),
 ]

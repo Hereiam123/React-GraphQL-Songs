@@ -4,7 +4,6 @@ from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import logging
-import urllib.request
 import os
 
 

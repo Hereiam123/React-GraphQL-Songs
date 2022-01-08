@@ -12,9 +12,9 @@ import { setContext } from "@apollo/client/link/context";
 const cache = new InMemoryCache();
 
 const httpLink = createUploadLink({
-  uri: process.env.NODE_ENV
-    ? "/graphql/" /*"https://www.reactsongs.com/graphql/"*/
-    : "/graphql/"
+  uri: process.env.NODE_ENV === "production"
+    ? "https://api.reactsongs.com/graphql/"
+    : "http://127.0.0.1:1337/graphql/"
 });
 
 const authLink = setContext((_, { headers }) => {
