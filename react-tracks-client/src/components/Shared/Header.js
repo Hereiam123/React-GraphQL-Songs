@@ -14,7 +14,7 @@ const Header = ({ currentUser }) => {
         <Link to="/" className={classes.grow}>
           <RadioIcon className={classes.logo} color="secondary" />
           <Typography variant="h3" color="secondary" noWrap>
-            Musicallen
+            React Tracks
           </Typography>
         </Link>
         {currentUser && (
