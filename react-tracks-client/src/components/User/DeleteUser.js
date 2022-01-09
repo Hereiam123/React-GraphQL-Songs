@@ -34,8 +34,8 @@ function DeleteUser({ id }) {
         </button>
       ) : (
         <>
-          <button>Confirm Delete</button>
-          <button>Cancel</button>
+          <button onClick={deleteUserClick}>Confirm Delete</button>
+          <button onClick={()=>setIsConfirm(false)}>Cancel</button>
         </>
       )}
     </>
