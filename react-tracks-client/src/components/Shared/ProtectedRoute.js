@@ -5,7 +5,6 @@ import { GET_ME_QUERY } from "../../sharedQueries";
 import Loading from "./Loading";
 import Error from "./Error";
 import Root from "../../Root";
-export const UserContext = React.createContext();
 
 function ProtectedRoute({ component: Component, ...restOfProps }) {
   const { loading, error, data } = useQuery(GET_ME_QUERY, {
