@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -108,7 +108,12 @@ const Register = ({ setIsLogin }) => {
             Previous user? Login in here.
           </Button>
           {loading && <p>Loading...</p>}
-          {error && <Error error={error.toString()} />}
+          {error &&
+            (error.toString().includes("already exists") ? (
+              <Error error={"User already exists!"} />
+            ) : (
+              <Error error={error.toString()} />
+            ))}
         </form>
       </Paper>
       {/***Success Dialog***/}
@@ -141,7 +146,7 @@ const Register = ({ setIsLogin }) => {
 };
 
 const REGISTER_MUTATION = gql`
-  mutation($username: String!, $email: String!, $password: String!) {
+  mutation ($username: String!, $email: String!, $password: String!) {
     createUser(username: $username, email: $email, password: $password) {
       user {
         username
