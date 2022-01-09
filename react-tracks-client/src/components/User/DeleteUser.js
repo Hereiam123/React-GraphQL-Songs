@@ -9,7 +9,7 @@ function DeleteUser({ id }) {
     {
       onCompleted() {
         localStorage.removeItem("authToken");
-        client.resetStore();
+        client.clearStore();
       },
     }
   );
