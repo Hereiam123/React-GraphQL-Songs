@@ -15,6 +15,7 @@ import AudiotrackIcon from "@material-ui/icons/Audiotrack";
 import AudioPlayer from "../components/Shared/AudioPlayer";
 import Error from "../components/Shared/Error";
 import Loading from "../components/Shared/Loading";
+import DeleteUser from "../components/User/DeleteUser";
 
 const Profile = ({ match }) => {
   const classes = useStyles();
@@ -39,6 +40,7 @@ const Profile = ({ match }) => {
             .toISOString()
             .substring(0, 10)}`}
         />
+        <DeleteUser history={history} id={match.params.id} />
       </Card>
       <Paper elevation={1} className={classes.paper}>
         <Typography variant="subtitle1" className={classes.title}>

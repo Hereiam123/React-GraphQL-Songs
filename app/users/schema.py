@@ -66,3 +66,4 @@ class DeleteUser(graphene.Mutation):
 
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
+    delete_user = DeleteUser.Field()

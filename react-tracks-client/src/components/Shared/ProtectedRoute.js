@@ -12,7 +12,6 @@ function ProtectedRoute({ component: Component, ...restOfProps }) {
   });
   if (loading) return <Loading />;
   if (error) {
-    console.log(error.toString());
     if (error.toString() === "Error: Not logged in!") {
       return <Redirect to="/signin" />;
     } else {
