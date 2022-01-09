@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -110,7 +110,7 @@ const Register = ({ setIsLogin }) => {
           {loading && <p>Loading...</p>}
           {error &&
             (error.toString().includes("already exists") ? (
-              <Error error={"User already exists!"} />
+              <Error error={"Error: User already exists!"} />
             ) : (
               <Error error={error.toString()} />
             ))}

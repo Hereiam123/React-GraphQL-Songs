@@ -36,6 +36,9 @@ class CreateUser(graphene.Mutation):
         if get_user_model().objects.all().count() >= 10:
             raise GraphQLError("We have reached max user count of 10")
 
+        if get_user_model().objects.filter(email=email).exists():
+            raise GraphQLError("Email already in use!")
+
         user = get_user_model()(
             username=username.lower(),
             email=email.lower()

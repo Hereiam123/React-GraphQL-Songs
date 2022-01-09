@@ -50,7 +50,7 @@ const Login = ({ setIsLogin, history }) => {
             <Input
               id="username"
               onChange={(e) => {
-                setUsername(e.target.value);
+                setUsername(e.target.value.toLowerCase());
               }}
             />
           </FormControl>
@@ -60,7 +60,7 @@ const Login = ({ setIsLogin, history }) => {
               id="password"
               type="password"
               onChange={(e) => {
-                setPassword(e.target.value);
+                setPassword(e.target.value.toLowerCase());
               }}
             />
           </FormControl>
