@@ -47,6 +47,22 @@ class CreateUser(graphene.Mutation):
         user.save()
         return CreateUser(user=user)
 
+class DeleteUser(graphene.Mutation):
+    id = graphene.Int()
+
+    class Arguments:
+        id = graphene.Int(required=True)
+
+    def mutate(self, info, id):
+        if not get_user_model().objects.filter(id=id).exists():
+            raise GraphQLError("User doesn't exist!")
+        
+        if not info.context.user.id == id:
+            raise GraphQLError("You can't delete this profile!")
+
+        user = get_user_model().objects.filter(id=id)
+        user.delete()
+        return DeleteUser(id=id)
 
 class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
