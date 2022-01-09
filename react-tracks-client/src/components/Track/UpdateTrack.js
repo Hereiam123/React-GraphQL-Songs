@@ -10,12 +10,10 @@ import {
   DialogContent,
   DialogContentText,
   FormControl,
-  FormHelperText,
   DialogTitle,
   CircularProgress,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import { UserContext } from "../../Root";
 import Error from "../Shared/Error";
 
@@ -30,35 +28,21 @@ const UpdateTrack = ({ track }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(track.title);
   const [description, setDescritpion] = useState(track.description);
-  const [file, setFile] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [fileError, setFileError] = useState("");
 
   const isCurrentUser = user.id === track.postedBy.id;
-
-  const handleAudioChange = (e) => {
-    const selectedFile = e.target.files[0];
-    const fileSizeLimit = 10000000; //10mb
-    if (selectedFile && selectedFile.size > fileSizeLimit) {
-      setFileError(`${selectedFile.name}: File size too large, 10mb max.`);
-    } else {
-      setFile(selectedFile);
-      setFileError("");
-    }
-  };
 
   const handleComplete = () => {
     setOpen(false);
     setSubmitting(false);
     setTitle("");
     setDescritpion("");
-    setFile("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    updateTrack({ variables: { title, description, file, trackId: track.id } });
+    updateTrack({ variables: { title, description, trackId: track.id } });
   };
 
   if (error) {
@@ -84,7 +68,7 @@ const UpdateTrack = ({ track }) => {
             <DialogTitle>Update Track</DialogTitle>
             <DialogContent>
               <DialogContentText component="span">
-                Update Title, Description or Audio File
+                Update Title or Description
                 <FormControl fullWidth>
                   <TextField
                     label="Title"
@@ -109,29 +93,6 @@ const UpdateTrack = ({ track }) => {
                     value={description}
                   />
                 </FormControl>
-                <FormControl fullWidth error={fileError !== ""}>
-                  <input
-                    id="audio"
-                    required
-                    type="file"
-                    className={classes.input}
-                    accept="audio/mp3,audio/wav"
-                    onChange={handleAudioChange}
-                  />
-                  <label htmlFor="audio">
-                    <Button
-                      variant="outlined"
-                      color={file ? "secondary" : "inherit"}
-                      component="span"
-                      className={classes.button}
-                    >
-                      Audio File
-                      <LibraryMusicIcon className={classes.icon} />
-                    </Button>
-                    {file && file.name}
-                  </label>
-                  <FormHelperText>{fileError}</FormHelperText>
-                </FormControl>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -146,7 +107,9 @@ const UpdateTrack = ({ track }) => {
               </Button>
               <Button
                 disabled={
-                  submitting || !title.trim() || !description.trim() || !file
+                  submitting ||
+                  !title.trim() ||
+                  !description.trim()
                 }
                 type="submit"
                 className={classes.save}
@@ -166,17 +129,15 @@ const UpdateTrack = ({ track }) => {
 };
 
 const UPDATE_TRACK_MUTATION = gql`
-  mutation(
+  mutation (
     $trackId: Int!
     $title: String!
     $description: String!
-    $file: Upload!
   ) {
     updateTrack(
       trackId: $trackId
       title: $title
       description: $description
-      file: $file
     ) {
       track {
         id

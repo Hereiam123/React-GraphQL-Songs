@@ -80,36 +80,16 @@ class UpdateTrack(graphene.Mutation):
         track_id = graphene.Int(required=True)
         title = graphene.String()
         description = graphene.String()
-        file = Upload(required=True)
 
-    def mutate(self, info, title, description, file, track_id):
+    def mutate(self, info, title, description, track_id):
         user = info.context.user
         track = Track.objects.get(id=track_id)
 
         if track.posted_by != user:
             raise GraphQLError("Not permitted to update this track.")
 
-        file_type = track.url.split(".")[-1]
-
-        file_destroy = cloudinary.uploader.destroy(track.public_id+"."+file_type, resource_type="raw")
-
-        if file_destroy.get('result') == 'not found':
-            raise GraphQLError("File update failure!")
-
-        public_id = uuid.uuid1()
-        
-        file_upload = cloudinary.uploader.upload(file=file, resource_type="raw", public_id=str(public_id))
-
-        if file_upload.get('error'):
-            raise GraphQLError("File update failure!")
-
-        file_url = file_upload.get('secure_url')
-
         track.title = title
         track.description = description
-        track.url = file_url
-        track.public_id = public_id
-
         track.save()
         return UpdateTrack(track=track)
 
