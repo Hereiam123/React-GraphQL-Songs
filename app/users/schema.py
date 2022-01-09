@@ -63,7 +63,10 @@ class DeleteUser(graphene.Mutation):
         if not info.context.user.id == id:
             raise GraphQLError("You can't delete this profile!")
 
-        user = get_user_model().objects.filter(id=id)
+        user = get_user_model().objects.get(id=id)
+
+        print(user.track_set.all())
+
         user.delete()
         return DeleteUser(id=id)
 
