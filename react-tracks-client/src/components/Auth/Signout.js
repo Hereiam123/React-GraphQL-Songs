@@ -11,7 +11,7 @@ const Signout = () => {
   const handleSignout = async (client) => {
     localStorage.removeItem("authToken");
     client.resetStore();
-    history.push('/');
+    history.push('/signin');
   };
   return (
     <ApolloConsumer>

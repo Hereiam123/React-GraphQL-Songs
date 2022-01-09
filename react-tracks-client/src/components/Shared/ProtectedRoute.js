@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { GET_ME_QUERY } from "../../sharedQueries";
 import Loading from "./Loading";
 import Error from "./Error";
-import Header from "./Header";
+import Root from "../../Root";
 export const UserContext = React.createContext();
 
 function ProtectedRoute({ component: Component, ...restOfProps }) {
@@ -15,22 +15,18 @@ function ProtectedRoute({ component: Component, ...restOfProps }) {
   if (error) {
     console.log(error.toString());
     if (error.toString() === "Error: Not logged in!") {
-      return <Redirect to="/" />;
+      return <Redirect to="/signin" />;
     } else {
       return <Error error={error.toString()} />;
     }
   }
   return (
-    <UserContext.Provider value={data.me}>
       <Route
         {...restOfProps}
-        render={(props) => (
-          <Header currentUser={data.me}>
-            <Component {...props} />{" "}
-          </Header>
+        render={() => (
+          <Root data={data}/>
         )}
       />
-    </UserContext.Provider>
   );
 }
 

@@ -5,9 +5,7 @@ import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
-import App from "./pages/App";
 import Auth from "./components/Auth";
-import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/Shared/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
@@ -40,12 +38,11 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
-        <Switch>
-          <Route path="/" exact component={Auth} />
-          <ProtectedRoute path="/tracks" exact component={App} />
-          <ProtectedRoute path="/profile/:id" component={Profile} />
-          <Route component={NotFound} />
-        </Switch>
+      <Switch>
+        <Route path="/signin" exact component={Auth} />
+        <ProtectedRoute path="/" />
+        <Route component={NotFound} />
+      </Switch>
     </Router>
   </ApolloProvider>,
   document.getElementById("root")
