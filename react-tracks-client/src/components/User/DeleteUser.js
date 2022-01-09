@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
 import Error from "../Shared/Error";
 import Loading from "../Shared/Loading";
 
 function DeleteUser({ id }) {
+  const [isConfirm, setIsConfirm] = useState(false);
   const [deleteUser, { client, loading, error }] = useMutation(
     DELETE_USER_MUTATION,
     {
@@ -23,7 +24,20 @@ function DeleteUser({ id }) {
 
   return (
     <>
-      <button onClick={deleteUserClick}>Delete Account</button>
+      {!isConfirm ? (
+        <button
+          onClick={() => {
+            setIsConfirm(true);
+          }}
+        >
+          Delete Account
+        </button>
+      ) : (
+        <>
+          <button>Confirm Delete</button>
+          <button>Cancel</button>
+        </>
+      )}
     </>
   );
 }

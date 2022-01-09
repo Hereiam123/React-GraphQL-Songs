@@ -14,6 +14,9 @@ class Query(graphene.ObjectType):
     me = graphene.Field(UserType)
 
     def resolve_user(self, info, id):
+        if not get_user_model().objects.filter(id=id).exists():
+            raise GraphQLError("User doesn't exist!")
+        
         return get_user_model().objects.get(id=id)
 
     def resolve_me(self, info):
