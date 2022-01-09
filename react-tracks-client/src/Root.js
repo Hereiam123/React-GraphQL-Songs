@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import App from "./pages/App";
 import Profile from "./pages/Profile";
 import Header from "./components/Shared/Header";
+import NotFound from "./pages/NotFound";
 export const UserContext = React.createContext();
 
 const Root = ({ data }) => {
@@ -13,6 +14,7 @@ const Root = ({ data }) => {
       <Switch>
         <Route path="/tracks" exact component={App} />
         <Route path="/profile/:id" component={Profile} />
+        <Route component={NotFound} />
       </Switch>
     </UserContext.Provider>
   );

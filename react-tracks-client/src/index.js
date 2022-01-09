@@ -7,7 +7,6 @@ import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
 import Auth from "./components/Auth";
 import ProtectedRoute from "./components/Shared/ProtectedRoute";
-import NotFound from "./pages/NotFound";
 
 const cache = new InMemoryCache();
 
@@ -41,7 +40,6 @@ ReactDOM.render(
       <Switch>
         <Route path="/signin" exact component={Auth} />
         <ProtectedRoute path="/" />
-        <Route component={NotFound} />
       </Switch>
     </Router>
   </ApolloProvider>,
