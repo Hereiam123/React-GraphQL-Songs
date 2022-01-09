@@ -5,7 +5,7 @@ import { IconButton } from "@material-ui/core";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import Error from "../Shared/Error";
 import { GET_ME_QUERY } from "../../sharedQueries";
-import { UserContext } from "../../Root";
+import { UserContext } from "../Shared/ProtectedRoute";
 
 const LikeTrack = ({ trackId, likeCount }) => {
   const classes = useStyles();

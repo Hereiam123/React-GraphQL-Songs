@@ -11,7 +11,7 @@ const Header = ({ currentUser }) => {
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>
-        <Link to="/" className={classes.grow}>
+        <Link to="/tracks" className={classes.grow}>
           <RadioIcon className={classes.logo} color="secondary" />
           <Typography variant="h3" color="secondary" noWrap>
             React Tracks

@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
-import { UserContext } from "../../Root";
+import { UserContext } from "../Shared/ProtectedRoute";
 import Error from "../Shared/Error";
 
 const UpdateTrack = ({ track }) => {

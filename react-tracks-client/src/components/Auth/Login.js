@@ -13,7 +13,7 @@ import {
 import { Lock } from "@material-ui/icons";
 import Error from "../Shared/Error";
 
-const Login = ({ setIsLogin }) => {
+const Login = ({ setIsLogin, history }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const classes = useStyles();
@@ -26,6 +26,7 @@ const Login = ({ setIsLogin }) => {
         variables: { password, username },
       });
       localStorage.setItem("authToken", res.data.tokenAuth.token);
+      history.push("/tracks");
     } catch (e) {
       console.log(e);
     }

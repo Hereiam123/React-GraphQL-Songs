@@ -1,13 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Route, Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
+import App from "./pages/App";
 import Auth from "./components/Auth";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/Shared/ProtectedRoute";
-export const UserContext = React.createContext();
+import NotFound from "./pages/NotFound";
 
 const cache = new InMemoryCache();
 
@@ -38,15 +40,12 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
-      <UserContext.Provider value={data.me}>
-        <Header currentUser={data.me} />
         <Switch>
           <Route path="/" exact component={Auth} />
           <ProtectedRoute path="/tracks" exact component={App} />
-          <Route path="/profile/:id" component={Profile} />
+          <ProtectedRoute path="/profile/:id" component={Profile} />
           <Route component={NotFound} />
         </Switch>
-      </UserContext.Provider>
     </Router>
   </ApolloProvider>,
   document.getElementById("root")

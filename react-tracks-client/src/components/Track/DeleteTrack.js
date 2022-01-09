@@ -3,7 +3,7 @@ import { useMutation, gql } from "@apollo/client";
 import { IconButton, CircularProgress } from "@material-ui/core";
 import TrashIcon from "@material-ui/icons/DeleteForeverOutlined";
 import Error from "../Shared/Error";
-import { UserContext } from "../../Root";
+import { UserContext } from "../Shared/ProtectedRoute";
 import { GET_TRACKS_QUERY } from "../../sharedQueries";
 
 const DeleteTrack = ({ track }) => {
