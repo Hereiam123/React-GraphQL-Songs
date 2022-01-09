@@ -1,11 +1,5 @@
 import { gql } from "@apollo/client";
 
-export const IS_USER_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
-
 export const GET_TRACKS_QUERY = gql`
   query getTracksQuery {
     tracks {

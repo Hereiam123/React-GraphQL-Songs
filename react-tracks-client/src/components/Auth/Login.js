@@ -12,13 +12,12 @@ import {
 } from "@material-ui/core";
 import { Lock } from "@material-ui/icons";
 import Error from "../Shared/Error";
-import { IS_USER_LOGGED_IN } from "../../sharedQueries";
 
 const Login = ({ setIsLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const classes = useStyles();
-  const [loginUser, { loading, error, client }] = useMutation(LOGIN_MUTATION);
+  const [loginUser, { loading, error }] = useMutation(LOGIN_MUTATION);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,10 +26,6 @@ const Login = ({ setIsLogin }) => {
         variables: { password, username },
       });
       localStorage.setItem("authToken", res.data.tokenAuth.token);
-      client.writeQuery({
-        query: IS_USER_LOGGED_IN,
-        data: { isLoggedIn: true },
-      });
     } catch (e) {
       console.log(e);
     }

@@ -1,32 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Root from "./Root";
-import { useQuery } from "@apollo/client";
-import { IS_USER_LOGGED_IN } from "./sharedQueries";
-import Auth from "./components/Auth";
+import { Route, Router } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "@apollo/client/link/context";
+import Auth from "./components/Auth";
+import ProtectedRoute from "./components/Shared/ProtectedRoute";
+export const UserContext = React.createContext();
 
 const cache = new InMemoryCache();
 
 const httpLink = createUploadLink({
-  uri: process.env.NODE_ENV === "production"
-    ? "https://api.reactsongs.com/graphql/"
-    : "http://127.0.0.1:1337/graphql/"
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://api.reactsongs.com/graphql/"
+      : "http://127.0.0.1:1337/graphql/",
 });
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem("authToken");
   // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
       authorization: token ? `JWT ${token}` : "",
-    }
-  }
+    },
+  };
 });
 
 const client = new ApolloClient({
@@ -34,23 +35,19 @@ const client = new ApolloClient({
   cache,
 });
 
-cache.writeQuery({
-  query: IS_USER_LOGGED_IN,
-  data: {
-    isLoggedIn: !!localStorage.getItem("authToken"),
-  },
-});
-
-const AuthCheckComponent = (props) => {
-  const { data } = useQuery(IS_USER_LOGGED_IN);
-  return data.isLoggedIn ? <Root /> : props.children;
-};
-
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <AuthCheckComponent>
-      <Auth />
-    </AuthCheckComponent>
+    <Router>
+      <UserContext.Provider value={data.me}>
+        <Header currentUser={data.me} />
+        <Switch>
+          <Route path="/" exact component={Auth} />
+          <ProtectedRoute path="/tracks" exact component={App} />
+          <Route path="/profile/:id" component={Profile} />
+          <Route component={NotFound} />
+        </Switch>
+      </UserContext.Provider>
+    </Router>
   </ApolloProvider>,
   document.getElementById("root")
 );
