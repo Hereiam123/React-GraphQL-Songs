@@ -37,8 +37,8 @@ class CreateUser(graphene.Mutation):
             raise GraphQLError("We have reached max user count of 10")
 
         user = get_user_model()(
-            username=username,
-            email=email
+            username=username.lower(),
+            email=email.lower()
         )
         user.set_password(password)
         user.save()
