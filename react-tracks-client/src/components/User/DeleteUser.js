@@ -3,14 +3,13 @@ import { useMutation, gql } from "@apollo/client";
 import Error from "../Shared/Error";
 import Loading from "../Shared/Loading";
 
-function DeleteUser({ id, history }) {
+function DeleteUser({ id }) {
   const [deleteUser, { client, loading, error }] = useMutation(
     DELETE_USER_MUTATION,
     {
       onCompleted() {
-        client.resetStore();
         localStorage.removeItem("authToken");
-        history.push("/signin");
+        client.clearStore();
       },
     }
   );

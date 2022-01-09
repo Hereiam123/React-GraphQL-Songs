@@ -20,15 +20,20 @@ import Error from "../Shared/Error";
 const UpdateTrack = ({ track }) => {
   const classes = useStyles();
   const user = useContext(UserContext);
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(track.title);
+  const [description, setDescritpion] = useState(track.description);
+  const [submitting, setSubmitting] = useState(false);
+
   const [updateTrack, { error }] = useMutation(UPDATE_TRACK_MUTATION, {
     onCompleted() {
       handleComplete();
     },
   });
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState(track.title);
-  const [description, setDescritpion] = useState(track.description);
-  const [submitting, setSubmitting] = useState(false);
+
+  if (error) {
+    return <Error error={error.toString()} />;
+  }
 
   const isCurrentUser = user.id === track.postedBy.id;
 
@@ -44,10 +49,6 @@ const UpdateTrack = ({ track }) => {
     setSubmitting(true);
     updateTrack({ variables: { title, description, trackId: track.id } });
   };
-
-  if (error) {
-    return <Error error={error.toString()} />;
-  }
 
   return (
     isCurrentUser && (

@@ -1,17 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
 import { ApolloConsumer } from "@apollo/client";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import { Typography, Button } from "@material-ui/core";
 
 const Signout = () => {
   const classes = useStyles();
-  const history = useHistory();
-  const handleSignout = async (client) => {
+  const handleSignout = (client) => {
     localStorage.removeItem("authToken");
     client.resetStore();
-    history.push('/signin');
   };
   return (
     <ApolloConsumer>
