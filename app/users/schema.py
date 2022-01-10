@@ -37,8 +37,8 @@ class CreateUser(graphene.Mutation):
         email = graphene.String(required=True)
 
     def mutate(self, info, username, password, email):
-        if get_user_model().objects.all().count() >= 10:
-            raise GraphQLError("We have reached max user count of 10")
+        if get_user_model().objects.all().count() >= 5:
+            raise GraphQLError("We have reached max user count of 5")
 
         if get_user_model().objects.filter(email=email).exists():
             raise GraphQLError("Email already in use!")
@@ -69,8 +69,10 @@ class DeleteUser(graphene.Mutation):
         for track in user.track_set.all():
             file_type = track.url.split(".")[-1]
             try:
-                cloudinary.uploader.destroy(track.public_id+"."+str(file_type), resource_type="raw")
-            except:
+                file_destroy = cloudinary.uploader.destroy(track.public_id+"."+str(file_type), resource_type="raw")
+                print(file_destroy)
+            except Exception as e:
+                print(e)
                 pass
 
         user.delete()
