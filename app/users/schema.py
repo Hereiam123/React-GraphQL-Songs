@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from graphql import GraphQLError
 import graphene
 from graphene_django import DjangoObjectType
+import cloudinary.uploader
 
 
 class UserType(DjangoObjectType):
@@ -65,7 +66,12 @@ class DeleteUser(graphene.Mutation):
 
         user = get_user_model().objects.get(id=id)
 
-        print(user.track_set.all())
+        for track in user.track_set.all():
+            file_type = track.url.split(".")[-1]
+            try:
+                cloudinary.uploader.destroy(track.public_id+"."+str(file_type), resource_type="raw")
+            except:
+                pass
 
         user.delete()
         return DeleteUser(id=id)

@@ -108,11 +108,9 @@ class DeleteTrack(graphene.Mutation):
             raise GraphQLError("Not permitted to delete this track.")
 
         file_type = track.url.split(".")[-1]
-        print(track.public_id+"."+file_type)
         file_destroy = cloudinary.uploader.destroy(track.public_id+"."+str(file_type), resource_type="raw")
-
         if file_destroy.get('result') == 'not found':
-            raise GraphQLError("File update failure!")
+            raise GraphQLError("File deletion failure! Track does not exists!")
 
         track.delete()
         return DeleteTrack(track_id=track_id)
