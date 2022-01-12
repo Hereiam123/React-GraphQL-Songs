@@ -5,8 +5,8 @@ import { GET_ME_QUERY } from "../../sharedQueries";
 import withRoot from "../../withRoot";
 import Login from "./Login";
 import Register from "./Register";
-import Loading from "./Loading";
-import Error from "./Error";
+import Loading from "../Shared/Loading";
+import Error from "../Shared/Error";
 
 export default withRoot(({ history }) => {
   const [isLogin, setIsLogin] = useState(false);
