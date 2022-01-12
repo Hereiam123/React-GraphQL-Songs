@@ -13,6 +13,7 @@ function ProtectedRoute({ component: Component, ...restOfProps }) {
   if (loading) return <Loading />;
   if (error) {
     if (error.toString() === "Error: Not logged in!") {
+      localStorage.removeItem("authToken");
       return <Redirect to="/signin" />;
     } else {
       return <Error error={error.toString()} />;
